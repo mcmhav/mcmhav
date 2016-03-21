@@ -1,36 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/Main';
+import {
+    Router,
+    Route,
+    IndexRoute,
+    hashHistory
+} from 'react-router';
 
-import { combineReducers, applyMiddleware, compose, createStore } from 'redux';
-import { reduxReactRouter, routerStateReducer } from 'redux-router';
+import { Provider } from 'react-redux'
+import { compose, createStore } from 'redux';
+import { reduxReactRouter } from 'redux-router';
 import { createHistory } from 'history';
-import { Route } from 'react-router';
 
-import Testur from './views/testur';
+import MainComponent from './components/MainComponent';
+import TodoView from './components/views/TodoView/TodoView';
+import FrontView from './components/views/FrontView/FrontView';
+import InfoView from './components/views/InfoView/InfoView';
+
+import reducer from './state-logic/combiner'
 
 import './main.less';
 
 const routes = (
-    <Route path="/" component={ App }>
-        <Route path="parent" component={ Testur }></Route>
-    </Route>
+    <Router history={ hashHistory }>
+        <Route path='/' component={MainComponent}>
+            <IndexRoute component={FrontView} />
+            <Route path='/front' component={FrontView} />
+            <Route path='/info' component={InfoView} />
+            <Route path='/todo' component={TodoView} />
+        </Route>
+    </Router>
 );
-
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-);
-
-
-const reducer = combineReducers({
-    router: routerStateReducer
-});
 
 const store = compose(
-    applyMiddleware(m1, m2, m3),
     reduxReactRouter({
-        routes,
         createHistory
     })
 )(createStore)(reducer);
+
+ReactDOM.render(
+    <Provider store={ store }>
+        { routes }
+    </Provider>,
+    document.getElementById('app')
+);
