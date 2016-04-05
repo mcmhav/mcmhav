@@ -1,22 +1,38 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { pushState } from 'redux-router';
+
+import  MenuItem from './MenuItem';
 
 import './MainMenu.less'
 
+const menuItems = [{
+        displayName: 'Front',
+        href: '#/front'
+    }, {
+        displayName: 'TodoList',
+        href: '#/todo'
+    }, {
+        displayName: 'Info',
+        href: '#/info'
+    }, {
+        displayName: 'TickTackToe',
+        href: '#/tick-tack-toe'
+    }
+];
+
 const Menu = () => {
     return <div className="main-menu">
-        <a className="main-menu-item" href="#/front">
-            <span className="main-menu-icon"></span>
-            <span className="main-menu-label">lol</span>
-        </a>
-        <a className="main-menu-item" href="#/info">
-            <span className="main-menu-icon"></span>
-            <span className="main-menu-label">lul</span>
-        </a>
-        <a className="main-menu-item" href="#/todo">
-            <span className="main-menu-icon"></span>
-            <span className="main-menu-label">TodoList</span>
-        </a>
+        { menuItems.map(menuItem => {
+            return <MenuItem key={ menuItem.displayName } { ...menuItem }/>
+        }) }
     </div>
 };
 
-export default Menu;
+const mapStateToProps = state => {
+    return {
+        q: state.router.location.query.q
+    };
+}
+
+export default connect(mapStateToProps, {pushState})(Menu);
