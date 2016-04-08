@@ -4,36 +4,55 @@ import classnames from 'classnames';
 
 import { setPiece } from '../../../state-logic/tickTackToe/actions'
 
-const onCellClick = (position, selectedCells, dispatch) => {
-    if (selectedCells.indexOf(position) < 0) {
-        dispatch(setPiece(position));
-    }
-};
-
 const isSelected = (selectedCells, position) => {
-    return selectedCells.indexOf(position) < 0;
+    return typeof selectedCells[position] !== 'undefined';
 };
 
-const TickTackToeCell = props => {
-    const selected = isSelected(props.selectedCells, props.position);
+const getPieceType = (pieceType) => {
+    switch(pieceType){
+        case 0:
+            return 'circle';
+        case 1:
+            return 'cross';
+        default:
+            return '';
+    }
+}
 
-    const cellClasses = classnames('tick-tack-toe-cell');
-    return <td onClick={
-            onCellClick.bind(
-                null,
-                props.position,
-                props.selectedCells,
-                props.dispatch
-            )
-        }
+const TickTackToeCell = ({selectedCells, position, onClick}) => {
+    const selected = isSelected(selectedCells, position);
+
+    const cellClasses = classnames({
+        'ticked': selected
+    }, getPieceType(selectedCells[position]), 'tick-tack-toe-cell');
+
+    return <td onClick={e => {
+            e.preventDefault()
+            onClick(selectedCells)
+        }}
         className={ cellClasses }>
     </td>;
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         selectedCells: state.board.selectedCells
     };
 }
 
-export default connect(mapStateToProps)(TickTackToeCell);
+const mapDispatchToProps = (dispatch, {
+    position
+}) => {
+    return {
+        onClick: (selectedCells) => {
+            if (typeof selectedCells[position] === 'undefined') {
+                dispatch(setPiece(position));
+            }
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TickTackToeCell);

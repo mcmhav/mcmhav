@@ -12,6 +12,7 @@ import TodoView from './components/views/TodoView/TodoView';
 import FrontView from './components/views/FrontView/FrontView';
 import InfoView from './components/views/InfoView/InfoView';
 import TickTackToeView from './components/views/TickTackToeView/TickTackToeView';
+import PartyView from './components/views/PartyView/PartyView';
 
 const routes = (
     <Router history={ hashHistory }>
@@ -21,6 +22,7 @@ const routes = (
             <Route path='/info' component={InfoView} />
             <Route path='/todo' component={TodoView} />
             <Route path='/tick-tack-toe' component={TickTackToeView } />
+            <Route path='/party' component={ PartyView } />
         </Route>
     </Router>
 );

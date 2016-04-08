@@ -1,18 +1,23 @@
+import update from 'react-addons-update'
 import {
     SET_PIECE
 } from './actions'
 
 const initialState = {
-    selectedCells: []
+    selectedCells: {}
 }
 
 export const board = (state = initialState, action) => {
     switch (action.type) {
         case SET_PIECE:
-            return Object.assign(
-                {},
-                state,
-                state.selectedCells.push(action.position)
+            return update(
+                state, {
+                    selectedCells: {
+                        $merge: {
+                            [action.position]: action.id  % 2
+                        }
+                    }
+                }
             );
         default:
             return state;

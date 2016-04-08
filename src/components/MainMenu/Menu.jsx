@@ -18,6 +18,9 @@ const menuItems = [{
     }, {
         displayName: 'TickTackToe',
         href: '#/tick-tack-toe'
+    }, {
+        displayName: 'Party',
+        href: '#/party'
     }
 ];
 
