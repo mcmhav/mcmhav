@@ -21,22 +21,26 @@ const verticalWin = (selectedCells, rowNum) => {
     return isWinRow(
         selectedCells[1 + (rowNum - 1) * 3],
         selectedCells[2 + (rowNum - 1) * 3],
-        selectedCells[3 + (rowNum - 1) + 3]
+        selectedCells[3 + (rowNum - 1) * 3]
     );
 }
 
 const horizontalWin = (selectedCells, colNum) => {
     return isWinRow(
-        selectedCells[1 + colNum],
-        selectedCells[2 + colNum*3],
-        selectedCells[3 + colNum*3]
+        selectedCells[1 + (colNum - 1)],
+        selectedCells[2 + (colNum - 1) * 3],
+        selectedCells[3 + (colNum - 1) * 3]
     );
 }
 
 const isWinningState = (selectedCells) => {
     if (
         verticalWin(selectedCells,1) ||
-        verticalWin(selectedCells,2)
+        verticalWin(selectedCells,2) ||
+        verticalWin(selectedCells,3) ||
+        horizontalWin(selectedCells,1) ||
+        horizontalWin(selectedCells,2) ||
+        horizontalWin(selectedCells,3)
     ) {
         console.log('win!');
     }
