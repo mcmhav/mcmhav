@@ -2,17 +2,21 @@
 // Use of this source code is governed by the Apache 2.0
 // license that c
 package main
+
 import (
-        "fmt"
-        "net/http"
-        "google.golang.org/appengine"
+	"fmt"
+	"net/http"
+
+	"google.golang.org/appengine"
 )
+
 func main() {
-        // Serve static files from "static" directory.
-        http.Handle("/static/", http.FileServer(http.Dir(".")))
-        http.HandleFunc("/", homepageHandler)
-        appengine.Main()
+	// Serve static files from "static" directory.
+	http.Handle("/static/", http.FileServer(http.Dir(".")))
+	http.HandleFunc("/", homepageHandler)
+	appengine.Main()
 }
+
 const homepage = `<!doctype html>
 <html>
 <head>
@@ -24,11 +28,12 @@ const homepage = `<!doctype html>
   <p>potet. This is a static file serving example.</p>
   <p>jenniiiiiiii</p>
   <p>møøøøøø</p>
+  <p>hei, christian, detter er super-dynamsiks</p>
 </body>
 </html>`
 
 func homepageHandler(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprint(w, homepage)
+	fmt.Fprint(w, homepage)
 }
 
 //package main
