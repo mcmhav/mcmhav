@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { resetGame } from '../../../state-logic/tickTackToe/actions';
+
 import TickTackToeCell from './TickTackToeCell';
 
 const isWinRow = (cell1,cell2,cell3) => {
@@ -42,33 +44,42 @@ const isWinningState = (selectedCells) => {
         horizontalWin(selectedCells,2) ||
         horizontalWin(selectedCells,3)
     ) {
-        console.log('win!');
+        return true;
+        // console.log('win!');
     }
-    return selectedCells;
+    return false;
+    // return selectedCells;
 }
 
 const TickTackToeBoard = ({selectedCells}) => {
-    console.log(isWinningState(selectedCells));
+    // console.log(isWinningState(selectedCells));
+    if (isWinningState(selectedCells)) {
+        return <div>
+            won!!
+        </div>
+    }
 
-    return <table className="tick-tack-toe-board">
-        <tbody>
-            <tr>
-                <TickTackToeCell position="1"/>
-                <TickTackToeCell position="2"/>
-                <TickTackToeCell position="3"/>
-            </tr>
-            <tr>
-                <TickTackToeCell position="4"/>
-                <TickTackToeCell position="5"/>
-                <TickTackToeCell position="6"/>
-            </tr>
-            <tr>
-                <TickTackToeCell position="7"/>
-                <TickTackToeCell position="8"/>
-                <TickTackToeCell position="9"/>
-            </tr>
-        </tbody>
-    </table>;
+    return <div>
+        <table className="tick-tack-toe-board">
+            <tbody>
+                <tr>
+                    <TickTackToeCell position="1"/>
+                    <TickTackToeCell position="2"/>
+                    <TickTackToeCell position="3"/>
+                </tr>
+                <tr>
+                    <TickTackToeCell position="4"/>
+                    <TickTackToeCell position="5"/>
+                    <TickTackToeCell position="6"/>
+                </tr>
+                <tr>
+                    <TickTackToeCell position="7"/>
+                    <TickTackToeCell position="8"/>
+                    <TickTackToeCell position="9"/>
+                </tr>
+            </tbody>
+        </table>
+    </div>;
 };
 
 const mapStateToProps = (state) => {

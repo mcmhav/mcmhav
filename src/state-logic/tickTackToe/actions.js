@@ -1,5 +1,6 @@
 export const SET_PIECE = 'SET_PIECE';
 export const WIN = 'WIN';
+export const RESET = 'RESET';
 
 let picesSet = 0;
 
@@ -16,5 +17,11 @@ export const gameOver = (position) => {
         type: WIN,
         id: picesSet++,
         position
+    }
+}
+
+export const resetGame = () => {
+    return {
+        type: RESET
     }
 }

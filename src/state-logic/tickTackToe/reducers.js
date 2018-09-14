@@ -1,7 +1,8 @@
 import update from 'react-addons-update'
 import {
     SET_PIECE,
-    WIN
+    WIN,
+    RESET
 } from './actions'
 
 const initialState = {
@@ -26,6 +27,16 @@ export const board = (state = initialState, action) => {
                     selectedCells: {
                         $merge: {
                             [action.position]: action.id  % 2
+                        }
+                    }
+                }
+            );
+        case RESET:
+            return update(
+                state, {
+                    selectedCells: {
+                        $apply(){
+                            return {};
                         }
                     }
                 }
