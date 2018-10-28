@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://mcmhav.com",
   "dependencies": {
+    "color-difference": "^0.3.4",
+    "delta-e": "^0.0.7",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "react-scripts": "1.1.5",
@@ -15,5 +17,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "postbuild": "./scripts/postbuild.sh"
+  },
+  "devDependencies": {
+    "eslint": "^5.7.0",
+    "eslint-plugin-react": "^7.11.1"
   }
 }

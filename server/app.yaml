@@ -2,6 +2,13 @@ runtime: go
 api_version: go1
 
 handlers:
+- url: /(.*\.(js|json|ico|png))$
+  static_files: build/\1
+  upload: build/.*\.(js|json|ico|png)$
+
+- url: /static
+  static_dir: build/static
+
 - url: /
   static_files: build/index.html
   upload: build/index.html
@@ -9,13 +16,6 @@ handlers:
   # upload: build/.*\.(html|js)$
   secure: always
   redirect_http_response_code: 301
-
-- url: /(.*\.(js|json|ico))$
-  static_files: build/\1
-  upload: build/.*\.(js|json|ico)$
-
-- url: /static
-  static_dir: build/static
 
 - url: /.*
   script: _go_app
