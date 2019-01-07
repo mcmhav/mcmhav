@@ -22,3 +22,7 @@ bower_components/
 dist/
 
 build
+
+*.mat
+neural-style-transfer/images
+neural-style-transfer/output

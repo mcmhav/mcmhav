@@ -1,0 +1,8 @@
+dispatch:
+  # - url: "/"
+  #   service: default
+  - url: "*/*"
+    service: default
+
+  - url: "*/tf"
+    service: default
