@@ -27,14 +27,16 @@ function connectElements() {
  */
 function handleClientLoad() {
   connectElements();
-  gapi.load('client:auth2', initClient);
+  return new Promise((resolve, reject) => {
+    gapi.load('client:auth2', () => initClient(resolve, reject));
+  });
 }
 
 /**
  *  Initializes the API client library and sets up sign-in state
  *  listeners.
  */
-function initClient() {
+function initClient(resolve, reject) {
   gapi.client
     .init({
       apiKey: API_KEY,
@@ -43,7 +45,7 @@ function initClient() {
       scope: SCOPES,
     })
     .then(
-      function() {
+      () => {
         // Listen for sign-in state changes.
         gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
@@ -51,9 +53,11 @@ function initClient() {
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
+        resolve();
       },
-      function(error) {
-        appendPre(JSON.stringify(error, null, 2));
+      error => {
+        // appendPre(JSON.stringify(error, null, 2));
+        reject(error);
       },
     );
 }
@@ -66,7 +70,6 @@ function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     authorizeButton.style.display = 'none';
     signoutButton.style.display = 'block';
-    listMajors();
   } else {
     authorizeButton.style.display = 'block';
     signoutButton.style.display = 'none';
@@ -108,37 +111,8 @@ function emptyContent() {
  * Print the names and majors of students in a sample spreadsheet:
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
-function listMajors() {
-  console.log(gapi.client.sheets.spreadsheets.values);
-  emptyContent();
-  gapi.client.sheets.spreadsheets.values
-    .get({
-      spreadsheetId,
-      range: 'Sheet1!A2:B',
-    })
-    .then(
-      function(response) {
-        var range = response.result;
-        console.log(response);
-        if (range.values.length > 0) {
-          appendPre('Name, Major:');
-          for (var i = 0; i < range.values.length; i++) {
-            var row = range.values[i];
-            // Print columns A and E, which correspond to indices 0 and 4.
-            appendPre(row[0] + ', ' + row[1]);
-          }
-        } else {
-          appendPre('No data found.');
-        }
-      },
-      function(response) {
-        appendPre('Error: ' + response.result.error.message);
-      },
-    );
-}
 
 export {
-  listMajors,
   appendPre,
   handleSignoutClick,
   handleAuthClick,

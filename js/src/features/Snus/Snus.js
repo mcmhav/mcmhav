@@ -2,18 +2,26 @@
 
 import React, { Component } from 'react';
 
-import { handleClientLoad, spreadsheetId, listMajors } from './test';
+import TextField from '@material-ui/core/TextField';
+import { Fab } from '../../components/buttons/Fab';
+import { SimpleTable } from '../../components/tables/SimpleTable';
+import Eject from '@material-ui/icons/Eject';
+import PermIdentity from '@material-ui/icons/PermIdentity';
+import { handleClientLoad, spreadsheetId } from './test';
+import Button from '@material-ui/core/Button';
 
 class Snus extends Component {
   constructor() {
     super();
     this.state = {
       notes: '',
+      headers: [{ id: 1, title: 'Date' }, { id: 2, title: 'Notes' }],
     };
   }
 
   async componentDidMount() {
-    handleClientLoad();
+    await handleClientLoad();
+    this.getValues();
   }
 
   addItem = () => {
@@ -47,7 +55,6 @@ class Snus extends Component {
       function(response) {
         // TODO: Change code below to process the `response` object:
         console.log(response.result);
-        listMajors();
       },
       function(reason) {
         console.error('error: ' + reason.result.error.message);
@@ -61,22 +68,113 @@ class Snus extends Component {
   onChange = event => {
     this.setState({ notes: event.target.value });
   };
+  getValues = async () => {
+    try {
+      const response = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: 'Sheet1!A2:C',
+      });
+
+      console.log(response);
+      var counts = {};
+
+      for (var i = 0; i < response.result.values.length; i++) {
+        var num = response.result.values[i][1];
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+      }
+
+      this.setState({
+        rows: response.result.values.map(value => {
+          return { id: value[2], time: value[0], notes: value[1] };
+        }),
+        counts,
+      });
+    } catch (error) {
+      console.log(error);
+      this.setState({ error });
+    }
+
+    // .then(
+    //   function(response) {
+    //     var range = response.result;
+    //     console.log(range);
+    //     this.setState({ data: range });
+    //     // if (range.values.length > 0) {
+    //     //   appendPre('Name, Major:');
+    //     //   for (var i = 0; i < range.values.length; i++) {
+    //     //     var row = range.values[i];
+    //     //     // Print columns A and E, which correspond to indices 0 and 4.
+    //     //     appendPre(row[0] + ', ' + row[1]);
+    //     //   }
+    //     // } else {
+    //     //   appendPre('No data found.');
+    //     // }
+    //   },
+    //   function(response) {
+    //     // appendPre('Error: ' + response.result.error.message);
+    //   },
+    // );
+  };
 
   render() {
-    const { notes } = this.state;
+    const { notes, headers, rows = [], counts } = this.state;
+
+    console.log(counts);
     return (
       <div className="Snus">
-        <button id="authorize_button" style={{ display: 'none' }}>
+        <Fab id="authorize_button" style={{ display: 'none' }}>
+          <PermIdentity />
+        </Fab>
+        <Fab id="signout_button" style={{ display: 'none' }}>
+          <Eject />
+        </Fab>
+        {/* <button id="authorize_button" style={{ display: 'none' }}>
           Authorize
         </button>
         <button id="signout_button" style={{ display: 'none' }}>
           Sign Out
-        </button>
-        <input value={notes} onChange={this.onChange} />
-        <button id="add_item" onClick={this.onPress} style={{}}>
+        </button> */}
+        <TextField
+          id="outlined-multiline-flexible"
+          label="Notes"
+          multiline
+          rowsMax="4"
+          error
+          value={notes}
+          onChange={this.onChange}
+          // className={classes.textField}
+          margin="normal"
+          // helperText="hello"
+          variant="outlined"
+          style={{ color: 'red' }}
+        />
+        {/* <button id="add_item" onClick={this.onPress} style={{}}>
           add item
-        </button>
-        <pre id="content" style={{ color: 'red', whiteSpace: 'pre-wrap' }} />
+        </button> */}
+        <Button
+          id="add_item"
+          variant="outlined"
+          color="secondary"
+          onClick={this.onPress}
+        >
+          Add item
+        </Button>
+        {/* {counts.map((count) => {
+
+        })} */}
+        {/* <div>
+          {data.values.map(element => {
+            return (
+              <div key={element[2]}>
+                {element[0]}
+                {element[1]}
+              </div>
+            );
+          })}
+        </div> */}
+        <div>
+          <SimpleTable headers={headers} rows={rows} />
+        </div>
       </div>
     );
   }
