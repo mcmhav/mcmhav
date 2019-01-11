@@ -10,6 +10,7 @@
     "@tensorflow/tfjs": "^0.13.0",
     "color-difference": "^0.3.4",
     "dat.gui": "^0.7.3",
+    "date-fns": "^1.30.1",
     "delta-e": "^0.0.7",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",

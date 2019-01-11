@@ -26,7 +26,7 @@ class Snus extends Component {
     this.getValues();
   }
 
-  counter = rows => {
+  const counter = rows => {
     const counts = {};
     const sorted = [];
     rows.forEach(row => {
@@ -124,7 +124,7 @@ class Snus extends Component {
         rows: response.result.values.map(value => {
           return { id: value[2], time: value[0], notes: value[1] };
         }),
-        counts,
+        counts: this.counter(response.result.values),
       });
     } catch (error) {
       console.log(error);
@@ -154,7 +154,7 @@ class Snus extends Component {
   };
 
   render() {
-    const { notes, headers, rows = [], counts } = this.state;
+    const { notes, headers, rows = [], counts = { sortedKeys = []} } = this.state;
 
     console.log(counts);
     return (
@@ -196,9 +196,9 @@ class Snus extends Component {
         >
           Add item
         </Button>
-        {/* {counts.map((count) => {
-
-        })} */}
+        {counts.sortedKeys.map((count) => {
+          return (<Button id={`${count.replace(/ /g, '-')}-key`} variant="outlined" color="secondary" onClick={this.onCountedPress}>{count}</Button>);
+        })}
         {/* <div>
           {data.values.map(element => {
             return (
