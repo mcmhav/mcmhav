@@ -25,6 +25,7 @@ const styles = {
     flex: '1 1 auto',
     overflowY: 'scroll',
     overflowX: 'hidden',
+    WebkitOverflowScrolling: 'touch',
   },
 };
 

@@ -66,7 +66,7 @@ const actions = [
   },
 ];
 
-class AppRouter extends Component {
+class Navigator extends Component {
   constructor() {
     super();
     this.state = {
@@ -84,6 +84,41 @@ class AppRouter extends Component {
     const { open } = this.state;
 
     return (
+      <SpeedDial
+        ariaLabel="SpeedDial tooltip example"
+        // className={classes.speedDial}
+        // hidden={hidden}
+        icon={<SpeedDialIcon />}
+        onBlur={this.handleClose}
+        onClick={this.handleClick}
+        onClose={this.handleClose}
+        onFocus={this.handleOpen}
+        onMouseEnter={this.handleOpen}
+        onMouseLeave={this.handleClose}
+        open={open}
+        style={{
+          position: 'absolute',
+          bottom: 16,
+          left: 16,
+        }}
+      >
+        {actions.map(action => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            tooltipOpen
+            onClick={this.handleClick}
+          />
+        ))}
+      </SpeedDial>
+    );
+  }
+}
+
+class AppRouter extends Component {
+  render() {
+    return (
       <Router>
         <div id="router">
           <Route path="/" exact component={Index} />
@@ -92,34 +127,7 @@ class AppRouter extends Component {
           <Route path="/users/" component={Users} />
           <Route path="/snus/" component={Snus} />
 
-          <SpeedDial
-            ariaLabel="SpeedDial tooltip example"
-            // className={classes.speedDial}
-            // hidden={hidden}
-            icon={<SpeedDialIcon />}
-            onBlur={this.handleClose}
-            onClick={this.handleClick}
-            onClose={this.handleClose}
-            onFocus={this.handleOpen}
-            onMouseEnter={this.handleOpen}
-            onMouseLeave={this.handleClose}
-            open={open}
-            style={{
-              position: 'absolute',
-              bottom: 16,
-              left: 16,
-            }}
-          >
-            {actions.map(action => (
-              <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-                tooltipOpen
-                onClick={this.handleClick}
-              />
-            ))}
-          </SpeedDial>
+          <Navigator />
         </div>
       </Router>
     );
