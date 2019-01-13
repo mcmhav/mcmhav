@@ -92,14 +92,19 @@ class Snus extends Component {
     var request = gapi.client.sheets.spreadsheets.values.append(params);
 
     request.then(
-      function(response) {
+      response => {
         // TODO: Change code below to process the `response` object:
         console.log(response.result);
+        this.getValues();
       },
-      function(reason) {
+      reason => {
         console.error('error: ' + reason.result.error.message);
       },
     );
+  };
+  onCountedPress = notes => () => {
+    console.log('press');
+    this.setState({ notes }, this.addItem);
   };
 
   onPress = () => {
@@ -164,19 +169,21 @@ class Snus extends Component {
     return (
       <div className="Snus" style={styles.snus}>
         <div style={styles.actionsWrapper}>
-          <Fab id="authorize_button" style={{ display: 'none' }}>
-            <PermIdentity />
-          </Fab>
-          <Fab id="signout_button" style={{ display: 'none' }}>
-            <Eject />
-          </Fab>
           {/* <button id="authorize_button" style={{ display: 'none' }}>
           Authorize
-        </button>
-        <button id="signout_button" style={{ display: 'none' }}>
+          </button>
+          <button id="signout_button" style={{ display: 'none' }}>
           Sign Out
         </button> */}
           <div style={styles.intputWrapper}>
+            <div>
+              <Fab id="authorize_button" style={{ display: 'none' }}>
+                <PermIdentity />
+              </Fab>
+              <Fab id="signout_button" style={{ display: 'none' }}>
+                <Eject />
+              </Fab>
+            </div>
             <TextField
               id="outlined-multiline-flexible"
               label="Notes"
@@ -212,7 +219,7 @@ class Snus extends Component {
                   id={`${count.replace(/ /g, '-')}-key`}
                   variant="outlined"
                   color="secondary"
-                  onClick={this.onCountedPress}
+                  onClick={this.onCountedPress(count)}
                   key={`${count.replace(/ /g, '-')}-key`}
                 >
                   {count}

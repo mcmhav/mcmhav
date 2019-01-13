@@ -1,12 +1,10 @@
 /*global gapi b:true*/
 import './gapi';
 
+import env from '../../env';
 // Client ID and API key from the Developer Console
 
-const CLIENT_ID =
-  '819897453109-5v95pdnghdmm3ok97r2li81f2ajt1drv.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyC2JVAF21YCeRRzVz1n9xBkwerdt8vUdYM';
-const spreadsheetId = '1aRRQb-N1-Bg-pIgrBRV6W0ZEAUKpVjPvOWcbczYbEao';
+const { CLIENT_ID, API_KEY, spreadsheetId } = env;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ['https://sheets.googleapis.com/$discovery/rest?version=v4'];

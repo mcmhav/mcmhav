@@ -106,7 +106,8 @@ class AppRouter extends Component {
             open={open}
             style={{
               position: 'absolute',
-              bottom: 0,
+              bottom: 16,
+              left: 16,
             }}
           >
             {actions.map(action => (
