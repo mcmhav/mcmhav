@@ -10,6 +10,7 @@ import PermIdentity from '@material-ui/icons/PermIdentity';
 import { handleClientLoad, spreadsheetId } from './test';
 import Button from '@material-ui/core/Button';
 
+import styles from './styles';
 import './styles.css';
 
 class Snus extends Component {
@@ -45,7 +46,9 @@ class Snus extends Component {
       counts,
       sorted,
     };
-    countsInfo.sortedKeys = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+    countsInfo.sortedKeys = Object.keys(counts).sort(
+      (a, b) => counts[b] - counts[a],
+    );
 
     // const rai = Object.entries(counts)
     //   .sort()
@@ -124,7 +127,7 @@ class Snus extends Component {
         rows: response.result.values.map(value => {
           return { id: value[2], time: value[0], notes: value[1] };
         }),
-        counts,
+        counts: this.counter(response.result.values),
       });
     } catch (error) {
       console.log(error);
@@ -154,51 +157,70 @@ class Snus extends Component {
   };
 
   render() {
-    const { notes, headers, rows = [], counts } = this.state;
+    const { notes, headers, rows = [], counts = { sortedKeys: [] } } = this.state;
 
     console.log(counts);
+    console.log(styles.quickAddButtons);
     return (
-      <div className="Snus">
-        <Fab id="authorize_button" style={{ display: 'none' }}>
-          <PermIdentity />
-        </Fab>
-        <Fab id="signout_button" style={{ display: 'none' }}>
-          <Eject />
-        </Fab>
-        {/* <button id="authorize_button" style={{ display: 'none' }}>
+      <div className="Snus" style={styles.snus}>
+        <div style={styles.actionsWrapper}>
+          <Fab id="authorize_button" style={{ display: 'none' }}>
+            <PermIdentity />
+          </Fab>
+          <Fab id="signout_button" style={{ display: 'none' }}>
+            <Eject />
+          </Fab>
+          {/* <button id="authorize_button" style={{ display: 'none' }}>
           Authorize
         </button>
         <button id="signout_button" style={{ display: 'none' }}>
           Sign Out
         </button> */}
-        <TextField
-          id="outlined-multiline-flexible"
-          label="Notes"
-          multiline
-          rowsMax="4"
-          error
-          value={notes}
-          onChange={this.onChange}
-          // className={classes.textField}
-          margin="normal"
-          // helperText="hello"
-          variant="outlined"
-          style={{ color: 'red' }}
-        />
-        {/* <button id="add_item" onClick={this.onPress} style={{}}>
+          <div style={styles.intputWrapper}>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Notes"
+              multiline
+              rowsMax="4"
+              error
+              value={notes}
+              onChange={this.onChange}
+              // className={classes.textField}
+              margin="none"
+              // helperText="hello"
+              variant="outlined"
+              style={{ color: 'red' }}
+            />
+            {/* <button id="add_item" onClick={this.onPress} style={{}}>
           add item
         </button> */}
-        <Button
-          id="add_item"
-          variant="outlined"
-          color="secondary"
-          onClick={this.onPress}
-        >
-          Add item
-        </Button>
-        {/* {counts.map((count) => {
+            <Button
+              id="add_item"
+              variant="outlined"
+              color="secondary"
+              onClick={this.onPress}
+            >
+              Add item
+            </Button>
+          </div>
 
-        })} */}
+          <div className="quickAddButtons" style={styles.quickAddButtons}>
+            {counts.sortedKeys.map(count => {
+              return (
+                <Button
+                  style={styles.quickAddButton}
+                  id={`${count.replace(/ /g, '-')}-key`}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={this.onCountedPress}
+                  key={`${count.replace(/ /g, '-')}-key`}
+                >
+                  {count}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
         {/* <div>
           {data.values.map(element => {
             return (
@@ -209,7 +231,7 @@ class Snus extends Component {
             );
           })}
         </div> */}
-        <div>
+        <div style={styles.tableWrapper}>
           <SimpleTable headers={headers} rows={rows} />
         </div>
       </div>

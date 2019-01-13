@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^3.8.2",
     "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.28",
     "@tensorflow-models/posenet": "^0.2.2",
     "@tensorflow/tfjs": "^0.13.0",
     "color-difference": "^0.3.4",

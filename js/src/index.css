@@ -4,6 +4,14 @@ body {
   font-family: sans-serif;
 }
 
+#root {
+  height: inherit;
+}
+
+.App {
+  height: inherit;
+}
+
 #outlined-multiline-flexible {
   color:red;
 }

@@ -1,3 +1,6 @@
 body {
   display: block !important;
 }
+.quickAddButtons::-webkit-scrollbar {
+  display: none;
+}
