@@ -1,6 +1,7 @@
 /*global gapi:true*/
 
 import React, { Component } from 'react';
+import dateFns from 'date-fns';
 
 import TextField from '@material-ui/core/TextField';
 import { Fab } from '../../components/buttons/Fab';
@@ -99,6 +100,10 @@ class Snus extends Component {
       },
       reason => {
         console.error('error: ' + reason.result.error.message);
+
+        // TODO: maybe:
+        // gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse(this.addItem)
+        // with some check of the error message
       },
     );
   };
@@ -128,10 +133,34 @@ class Snus extends Component {
         counts[num] = counts[num] ? counts[num] + 1 : 1;
       }
 
+      const cols = {};
+      response.result.values.forEach(row => {
+        var date = dateFns.format(parseInt(row[2], 10), 'DD-MM-YYYY');
+
+        if (!cols[date]) {
+          cols[date] = [];
+        }
+        cols[date].push({ id: row[2], time: row[0], notes: row[1] });
+        // cols[date].push(row);
+      });
+
+      const cols_arr = [];
+      Object.keys(cols)
+        .sort()
+        .reverse()
+        .forEach(key => {
+          cols_arr.push({
+            colName: key,
+            rows: cols[key],
+          });
+        });
+
       this.setState({
         rows: response.result.values.map(value => {
           return { id: value[2], time: value[0], notes: value[1] };
         }),
+        cols,
+        cols_arr,
         counts: this.counter(response.result.values),
       });
     } catch (error) {
@@ -162,10 +191,18 @@ class Snus extends Component {
   };
 
   render() {
-    const { notes, headers, rows = [], counts = { sortedKeys: [] } } = this.state;
+    const {
+      notes,
+      headers,
+      rows = [],
+      cols = {},
+      counts = { sortedKeys: [] },
+      cols_arr = [],
+    } = this.state;
 
     console.log(counts);
-    console.log(styles.quickAddButtons);
+    console.log(cols);
+    console.log(cols_arr);
     return (
       <div className="Snus" style={styles.snus}>
         <div style={styles.actionsWrapper}>
@@ -239,7 +276,17 @@ class Snus extends Component {
           })}
         </div> */}
         <div style={styles.tableWrapper}>
-          <SimpleTable headers={headers} rows={rows} />
+          {cols_arr.map(table => {
+            return (
+              <SimpleTable
+                key={table.colName}
+                tableName={`${table.colName} - ${table.rows.length}`}
+                headers={headers}
+                rows={table.rows}
+              />
+            );
+          })}
+          {/* <SimpleTable headers={headers} rows={rows} /> */}
         </div>
       </div>
     );

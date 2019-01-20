@@ -5,7 +5,7 @@ const styles = {
     height: 'inherit',
   },
   actionsWrapper: {
-    flex: 1,
+    flex: '0 1 auto',
   },
   intputWrapper: {
     display: 'flex',
@@ -24,7 +24,8 @@ const styles = {
   tableWrapper: {
     flex: '1 1 auto',
     overflowY: 'scroll',
-    overflowX: 'hidden',
+    overflowX: 'scroll',
+    display: 'flex',
     WebkitOverflowScrolling: 'touch',
   },
 };

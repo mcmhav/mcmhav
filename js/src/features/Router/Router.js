@@ -9,7 +9,6 @@ import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import Landing from '../Landing/Landing';
 import { TFTest } from '../TFTest';
@@ -20,16 +19,6 @@ import './styles.css';
 const Index = Landing;
 const About = () => <h2>About</h2>;
 const Users = () => <h2>Users</h2>;
-
-const button = {
-  backgroundColor: '#337ab7',
-  borderColor: '#2e6da4',
-  color: '#fff',
-  borderRadius: '3px',
-  fontSize: '12px',
-  lineHeight: 1.5,
-  padding: '1px 5px',
-};
 
 const actions = [
   {
