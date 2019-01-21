@@ -21,6 +21,8 @@ class Snus extends Component {
       notes: '',
       headers: [{ id: 1, title: 'Date' }, { id: 2, title: 'Notes' }],
     };
+
+    this.retries = 0;
   }
 
   async componentDidMount() {
@@ -106,7 +108,32 @@ class Snus extends Component {
         // with some check of the error message
       },
     );
+    request.then(
+      response => {
+        // TODO: Change code below to process the `response` object:
+        console.log(response.result);
+        this.getValues();
+        this.retries = 0;
+      },
+      reason => {
+        console.error('error: ' + reason.result.error.message);
+        console.error('errorObj: ' + reason.result.error);
+
+        if (reason.result.error.code === 401 && this.retries < 3) {
+          // TODO: maybe:
+          // gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse(this.addItem)
+          // with some check of the error message
+          gapi.auth2
+            .getAuthInstance()
+            .currentUser.get()
+            .reloadAuthResponse()
+            .then(this.addItem);
+          this.retries += 1;
+        }
+      },
+    );
   };
+
   onCountedPress = notes => () => {
     console.log('press');
     this.setState({ notes }, this.addItem);
