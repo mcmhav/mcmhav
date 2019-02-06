@@ -1,0 +1,6 @@
+#plot,
+.js-plotly-plot,
+.plot-container,
+.svg-container {
+  height: 99vh !important;
+}

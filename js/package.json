@@ -14,6 +14,7 @@
     "date-fns": "^1.30.1",
     "delta-e": "^0.0.7",
     "immutable": "^4.0.0-rc.12",
+    "plotly.js-dist": "^1.44.3",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
@@ -31,10 +32,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "postbuild": "./scripts/postbuild.sh"
+    "postbuild": "./scripts/postbuild.sh",
+    "analyze": "source-map-explorer build/static/js/main.*"
   },
   "devDependencies": {
     "eslint": "^5.7.0",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-react": "^7.11.1",
+    "source-map-explorer": "^1.6.0"
   }
 }
