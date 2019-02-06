@@ -4,14 +4,12 @@ import './gapi';
 import env from '../../env';
 // Client ID and API key from the Developer Console
 
-const { CLIENT_ID, API_KEY, spreadsheetId } = env;
+const { CLIENT_ID,API_KEY,spreadsheetId,DISCOVERY_DOCS,SCOPES } = env;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
-var DISCOVERY_DOCS = ['https://sheets.googleapis.com/$discovery/rest?version=v4'];
 
 // Authorization scopes required by the API; multiple scopes can be
-// included, separated by spaces.
-var SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+// included,separated by spaces.
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
@@ -21,12 +19,12 @@ function connectElements() {
   signoutButton = document.getElementById('signout_button');
 }
 /**
- *  On load, called to load the auth2 library and API client library.
+ *  On load,called to load the auth2 library and API client library.
  */
 function handleClientLoad() {
   connectElements();
-  return new Promise((resolve, reject) => {
-    gapi.load('client:auth2', () => initClient(resolve, reject));
+  return new Promise((resolve,reject) => {
+    gapi.load('client:auth2',() => initClient(resolve,reject));
   });
 }
 
@@ -34,7 +32,7 @@ function handleClientLoad() {
  *  Initializes the API client library and sets up sign-in state
  *  listeners.
  */
-function initClient(resolve, reject) {
+function initClient(resolve,reject) {
   gapi.client
     .init({
       apiKey: API_KEY,
@@ -54,15 +52,15 @@ function initClient(resolve, reject) {
         resolve();
       },
       error => {
-        // appendPre(JSON.stringify(error, null, 2));
+        // appendPre(JSON.stringify(error,null,2));
         reject(error);
       },
     );
 }
 
 /**
- *  Called when the signed in status changes, to update the UI
- *  appropriately. After a sign-in, the API is called.
+ *  Called when the signed in status changes,to update the UI
+ *  appropriately. After a sign-in,the API is called.
  */
 function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {

@@ -9,16 +9,16 @@ import './MainMenu.less'
 const menuItems = [{
         displayName: 'Front',
         href: '#/front'
-    }, {
+    },{
         displayName: 'TodoList',
         href: '#/todo'
-    }, {
+    },{
         displayName: 'Info',
         href: '#/info'
-    }, {
+    },{
         displayName: 'TickTackToe',
         href: '#/tick-tack-toe'
-    }, {
+    },{
         displayName: 'Party',
         href: '#/party'
     }
@@ -38,4 +38,4 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps, {pushState})(Menu);
+export default connect(mapStateToProps,{pushState})(Menu);

@@ -5,5 +5,5 @@ import (
 )
 
 func GetModel() {
-	model, err =: tf.LoadSavedModel()
+	model,err =: tf.LoadSavedModel()
 }

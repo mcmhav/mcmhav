@@ -12,7 +12,7 @@ const PartyView = () => {
             document.querySelector('body').style.backgroundColor = 'white';
         }
         lol++;
-    }, 100);
+    },100);
 
     return <div className="party-view">
     </div>

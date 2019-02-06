@@ -23,8 +23,8 @@ const styles = {
   },
   tableWrapper: {
     flex: '1 1 auto',
-    overflowY: 'scroll',
-    overflowX: 'scroll',
+    overflowY: 'auto',
+    overflowX: 'auto',
     display: 'flex',
     WebkitOverflowScrolling: 'touch',
   },

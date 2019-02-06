@@ -7,13 +7,13 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/",indexHandler)
 	appengine.Main()
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+func indexHandler(w http.ResponseWriter,r *http.Request) {
 	if r.URL.Path != "/" {
-		http.Redirect(w, r, "/", http.StatusFound)
+		http.Redirect(w,r,"/",http.StatusFound)
 		return
 	}
 }

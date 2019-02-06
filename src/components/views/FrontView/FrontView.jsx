@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React,{ Component } from 'react';
 import ReactSVG from 'react-svg'
 
 import './FrontView.less'
@@ -18,30 +18,30 @@ class FrontView extends Component {
     componentDidMount() {
         console.log('mounted')
         this.updateWindowDimensions();
-        window.addEventListener('resize', this.updateWindowDimensions);
+        window.addEventListener('resize',this.updateWindowDimensions);
     }
 
     componentWillUnmount() {
         console.log('unmounted')
-        window.removeEventListener('resize', this.updateWindowDimensions);
+        window.removeEventListener('resize',this.updateWindowDimensions);
     }
 
     updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
+        this.setState({ width: window.innerWidth,height: window.innerHeight });
     }
 
     render() {
-        const { width, height } = this.state;
+        const { width,height } = this.state;
 
         return <div className="front-view">
             <ReactSVG
                 src="assets/output.svg"
                 evalScripts="always"
                 onInjected={svg => {
-                    console.log('onInjected', svg)
+                    console.log('onInjected',svg)
 
                     var polies = svg.querySelectorAll('g polygon');
-                    var getRandomInt = (max, min = 0) => {
+                    var getRandomInt = (max,min = 0) => {
                         return Math.floor(Math.random() * (max - min + 1)) + min;
                     }
 
@@ -52,12 +52,12 @@ class FrontView extends Component {
                         })
                     }
 
-                    const rotateInterval = setInterval(randomRotatSvg, 100)
+                    const rotateInterval = setInterval(randomRotatSvg,100)
 
                 }}
                 renumerateIRIElements={false}
                 svgClassName="svg-class-name"
-                svgStyle={{ width, height }}
+                svgStyle={{ width,height }}
                 className="svg-wrapper"
                 onClick={() => {
                     console.log('wrapper onClick')

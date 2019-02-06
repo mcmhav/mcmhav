@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { visibilityFilter, todos } from './todo/reducers'
+import { visibilityFilter,todos } from './todo/reducers'
 import { board } from './tickTackToe/reducers'
 
 import { routerStateReducer } from 'redux-router';

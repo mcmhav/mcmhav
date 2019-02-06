@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
+import React,{ PropTypes } from 'react'
 import Todo from './Todo'
 
-const TodoList = ({ todos, onTodoClick }) => {
+const TodoList = ({ todos,onTodoClick }) => {
     return <ul>
         {todos.map(todo =>
             <Todo

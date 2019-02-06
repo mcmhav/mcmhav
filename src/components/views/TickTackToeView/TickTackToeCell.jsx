@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import { setPiece } from '../../../state-logic/tickTackToe/actions'
 
-const isSelected = (selectedCells, position) => {
+const isSelected = (selectedCells,position) => {
     return typeof selectedCells[position] !== 'undefined';
 };
 
@@ -19,12 +19,12 @@ const getPieceType = (pieceType) => {
     }
 }
 
-const TickTackToeCell = ({selectedCells, position, onClick}) => {
-    const selected = isSelected(selectedCells, position);
+const TickTackToeCell = ({selectedCells,position,onClick}) => {
+    const selected = isSelected(selectedCells,position);
 
     const cellClasses = classnames({
         'ticked': selected
-    }, getPieceType(selectedCells[position]), 'tick-tack-toe-cell');
+    },getPieceType(selectedCells[position]),'tick-tack-toe-cell');
 
     return <td onClick={e => {
             e.preventDefault()
@@ -40,7 +40,7 @@ const mapStateToProps = (state) => {
     };
 }
 
-const mapDispatchToProps = (dispatch, {
+const mapDispatchToProps = (dispatch,{
     position
 }) => {
     return {

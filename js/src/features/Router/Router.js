@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import React,{ Component } from 'react';
+import { BrowserRouter as Router,Route,Link } from 'react-router-dom';
 
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -115,7 +115,6 @@ class AppRouter extends Component {
           <Route path="/about/" component={About} />
           <Route path="/users/" component={Users} />
           <Route path="/snus/" component={Snus} />
-
           <Navigator />
         </div>
       </Router>

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React,{ Component } from 'react';
 import * as posenet from '@tensorflow-models/posenet';
 
-import { bindPage } from './test';
+import { bindPage } from './ts_demo';
 
 // console.log(posenet.singlePose);
 console.log(posenet);

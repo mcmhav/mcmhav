@@ -39,16 +39,16 @@ class Landing extends Component {
   // componentDidMount() {
   //   console.log('mounted')
   //   this.updateWindowDimensions();
-  //   window.addEventListener('resize', this.updateWindowDimensions);
+  //   window.addEventListener('resize',this.updateWindowDimensions);
   // }
 
   // componentWillUnmount() {
   //   console.log('unmounted')
-  //   window.removeEventListener('resize', this.updateWindowDimensions);
+  //   window.removeEventListener('resize',this.updateWindowDimensions);
   // }
 
   // updateWindowDimensions() {
-  //   this.setState({ width: window.innerWidth, height: window.innerHeight });
+  //   this.setState({ width: window.innerWidth,height: window.innerHeight });
   // }
 
   colorPolies = [];
@@ -88,14 +88,14 @@ class Landing extends Component {
       this.polies.forEach(poly => {
         // console.log(poly.attributes.fill.nodeValue);
         // const colors = poly.attributes.fill.nodeValue
-        //   .replace('#', '')
+        //   .replace('#','')
         //   .match(colorRegex);
         // const color = {
         //   L: colors[0],
         //   A: colors[1],
         //   b: colors[2],
         // };
-        // const { maxHeight, maxWidth } = p
+        // const { maxHeight,maxWidth } = p
 
         poly.attributes.points.nodeValue.split(' ').forEach(point => {
           const xy = point.split(',');
@@ -108,10 +108,7 @@ class Landing extends Component {
             maxY = y;
           }
         });
-        const diff = colorDiff.compare(
-          poly.attributes.fill.nodeValue,
-          '#00b9fe'
-        );
+        const diff = colorDiff.compare(poly.attributes.fill.nodeValue, '#00b9fe');
         // console.log(diff);
         if (diff < 70) {
           diffs++;
@@ -146,10 +143,10 @@ class Landing extends Component {
       event.clientX,
       event.clientY,
       ReactDOM.findDOMNode(this.svgRef.current).getBoundingClientRect().width,
-      ReactDOM.findDOMNode(this.svgRef.current).getBoundingClientRect().height
+      ReactDOM.findDOMNode(this.svgRef.current).getBoundingClientRect().height,
     );
     // if (!showingMenu) {
-    //   this.setState({ showingMenu: true }, );
+    //   this.setState({ showingMenu: true },);
     // }
   };
 

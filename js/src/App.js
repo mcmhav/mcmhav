@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React,{ Component } from 'react';
 import { Router } from './features/Router';
 import './App.css';
 

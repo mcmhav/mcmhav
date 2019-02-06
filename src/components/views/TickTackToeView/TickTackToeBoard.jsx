@@ -19,7 +19,7 @@ const isWinRow = (cell1,cell2,cell3) => {
     return false;
 }
 
-const verticalWin = (selectedCells, rowNum) => {
+const verticalWin = (selectedCells,rowNum) => {
     return isWinRow(
         selectedCells[1 + (rowNum - 1) * 3],
         selectedCells[2 + (rowNum - 1) * 3],
@@ -27,7 +27,7 @@ const verticalWin = (selectedCells, rowNum) => {
     );
 }
 
-const horizontalWin = (selectedCells, colNum) => {
+const horizontalWin = (selectedCells,colNum) => {
     return isWinRow(
         selectedCells[1 + (colNum - 1)],
         selectedCells[2 + (colNum - 1) * 3],

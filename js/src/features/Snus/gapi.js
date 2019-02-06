@@ -1,3 +1,4 @@
+/* eslint-disable */
 // https://apis.google.com/js/api.js
 var gapi = (window.gapi = window.gapi || {});
 gapi._bs = new Date().getTime();
@@ -9,12 +10,12 @@ gapi._bs = new Date().getTime();
     m = g.location,
     n = function() {},
     q = /\[native code\]/,
-    u = function(a, b, c) {
+    u = function(a,b,c) {
       return (a[b] = a[b] || c);
     },
     aa = function(a) {
       a = a.sort();
-      for (var b = [], c = void 0, d = 0; d < a.length; d++) {
+      for (var b = [],c = void 0,d = 0; d < a.length; d++) {
         var e = a[d];
         e != c && b.push(e);
         c = e;
@@ -30,11 +31,11 @@ gapi._bs = new Date().getTime();
       }
       return a;
     },
-    z = u(g, 'gapi', {});
+    z = u(g,'gapi',{});
   var A;
-  A = u(g, '___jsl', w());
-  u(A, 'I', 0);
-  u(A, 'hel', 10);
+  A = u(g,'___jsl',w());
+  u(A,'I',0);
+  u(A,'hel',10);
   var B = function() {
       var a = m.href;
       if (A.dpo) var b = A.h;
@@ -50,7 +51,7 @@ gapi._bs = new Date().getTime();
       return b;
     },
     ba = function(a) {
-      var b = u(A, 'PQ', []);
+      var b = u(A,'PQ',[]);
       A.PQ = [];
       var c = b.length;
       if (0 === c) a();
@@ -67,35 +68,35 @@ gapi._bs = new Date().getTime();
           b[f](e);
     },
     C = function(a) {
-      return u(u(A, 'H', w()), a, w());
+      return u(u(A,'H',w()),a,w());
     };
-  var D = u(A, 'perf', w()),
-    F = u(D, 'g', w()),
-    ca = u(D, 'i', w());
-  u(D, 'r', []);
+  var D = u(A,'perf',w()),
+    F = u(D,'g',w()),
+    ca = u(D,'i',w());
+  u(D,'r',[]);
   w();
   w();
-  var G = function(a, b, c) {
+  var G = function(a,b,c) {
       var d = D.r;
-      'function' === typeof d ? d(a, b, c) : d.push([a, b, c]);
+      'function' === typeof d ? d(a,b,c) : d.push([a,b,c]);
     },
-    K = function(a, b, c) {
+    K = function(a,b,c) {
       b &&
         0 < b.length &&
         ((b = J(b)),
         c && 0 < c.length && (b += '___' + J(c)),
-        28 < b.length && (b = b.substr(0, 28) + (b.length - 28)),
+        28 < b.length && (b = b.substr(0,28) + (b.length - 28)),
         (c = b),
-        (b = u(ca, '_p', w())),
-        (u(b, c, w())[a] = new Date().getTime()),
-        G(a, '_p', c));
+        (b = u(ca,'_p',w())),
+        (u(b,c,w())[a] = new Date().getTime()),
+        G(a,'_p',c));
     },
     J = function(a) {
       return a
         .join('__')
-        .replace(/\./g, '_')
-        .replace(/\-/g, '_')
-        .replace(/,/g, '_');
+        .replace(/\./g,'_')
+        .replace(/\-/g,'_')
+        .replace(/,/g,'_');
     };
   var L = w(),
     M = [],
@@ -106,27 +107,27 @@ gapi._bs = new Date().getTime();
     'jsl',
     function(a) {
       for (var b in a)
-        if (Object.prototype.hasOwnProperty.call(a, b)) {
+        if (Object.prototype.hasOwnProperty.call(a,b)) {
           var c = a[b];
-          'object' == typeof c ? (A[b] = u(A, b, []).concat(c)) : u(A, b, c);
+          'object' == typeof c ? (A[b] = u(A,b,[]).concat(c)) : u(A,b,c);
         }
       if ((b = a.u))
-        (a = u(A, 'us', [])),
+        (a = u(A,'us',[])),
           a.push(b),
           (b = /^https:(.*)$/.exec(b)) && a.push('http:' + b[1]);
     },
   ]);
   var da = /^(\/[a-zA-Z0-9_\-]+)+$/,
-    O = [/\/amp\//, /\/amp$/, /^\/amp$/],
+    O = [/\/amp\//,/\/amp$/,/^\/amp$/],
     ea = /^[a-zA-Z0-9\-_\.,!]+$/,
     fa = /^gapi\.loaded_[0-9]+$/,
     ha = /^[a-zA-Z0-9,._-]+$/,
-    la = function(a, b, c, d) {
+    la = function(a,b,c,d) {
       var e = a.split(';'),
         f = e.shift(),
         l = L[f],
         k = null;
-      l ? (k = l(e, b, c, d)) : N('no hint processor for: ' + f);
+      l ? (k = l(e,b,c,d)) : N('no hint processor for: ' + f);
       k || N('failed to generate load url');
       b = k;
       c = b.match(ia);
@@ -134,18 +135,18 @@ gapi._bs = new Date().getTime();
         N('failed sanity: ' + a);
       return k;
     },
-    na = function(a, b, c, d) {
+    na = function(a,b,c,d) {
       a = ma(a);
       fa.test(c) || N('invalid_callback');
       b = P(b);
       d = d && d.length ? P(d) : null;
       var e = function(a) {
-        return encodeURIComponent(a).replace(/%2C/g, ',');
+        return encodeURIComponent(a).replace(/%2C/g,',');
       };
       return [
         encodeURIComponent(a.pathPrefix)
-          .replace(/%2C/g, ',')
-          .replace(/%2F/g, '/'),
+          .replace(/%2C/g,',')
+          .replace(/%2F/g,'/'),
         '/k=',
         e(a.version),
         '/m=',
@@ -161,7 +162,7 @@ gapi._bs = new Date().getTime();
     },
     ma = function(a) {
       '/' !== a.charAt(0) && N('relative path');
-      for (var b = a.substring(1).split('/'), c = []; b.length; ) {
+      for (var b = a.substring(1).split('/'),c = []; b.length; ) {
         a = b.shift();
         if (!a.length || 0 == a.indexOf('.')) N('empty/relative directory');
         else if (0 < a.indexOf('=')) {
@@ -171,7 +172,7 @@ gapi._bs = new Date().getTime();
         c.push(a);
       }
       a = {};
-      for (var d = 0, e = b.length; d < e; ++d) {
+      for (var d = 0,e = b.length; d < e; ++d) {
         var f = b[d].split('='),
           l = decodeURIComponent(f[0]),
           k = decodeURIComponent(f[1]);
@@ -181,20 +182,20 @@ gapi._bs = new Date().getTime();
       da.test(b) || N('invalid_prefix');
       c = 0;
       for (d = O.length; c < d; ++c) O[c].test(b) && N('invalid_prefix');
-      c = Q(a, 'k', !0);
-      d = Q(a, 'am');
-      e = Q(a, 'rs');
-      a = Q(a, 't');
-      return { pathPrefix: b, version: c, a: d, c: e, f: a };
+      c = Q(a,'k',!0);
+      d = Q(a,'am');
+      e = Q(a,'rs');
+      a = Q(a,'t');
+      return { pathPrefix: b,version: c,a: d,c: e,f: a };
     },
     P = function(a) {
-      for (var b = [], c = 0, d = a.length; c < d; ++c) {
-        var e = a[c].replace(/\./g, '_').replace(/-/g, '_');
+      for (var b = [],c = 0,d = a.length; c < d; ++c) {
+        var e = a[c].replace(/\./g,'_').replace(/-/g,'_');
         ha.test(e) && b.push(e);
       }
       return b.join(',');
     },
-    Q = function(a, b, c) {
+    Q = function(a,b,c) {
       a = a[b];
       !a && c && N('missing: ' + b);
       if (a) {
@@ -211,14 +212,14 @@ gapi._bs = new Date().getTime();
       if (!a) throw Error('Bad hint');
       return a;
     };
-  L.m = function(a, b, c, d) {
+  L.m = function(a,b,c,d) {
     (a = a[0]) || N('missing_hint');
-    return 'https://apis.google.com' + na(a, b, c, d);
+    return 'https://apis.google.com' + na(a,b,c,d);
   };
   var R = decodeURI('%73cript'),
     S = /^[-+_0-9\/A-Za-z]+={0,2}$/,
-    T = function(a, b) {
-      for (var c = [], d = 0; d < a.length; ++d) {
+    T = function(a,b) {
+      for (var c = [],d = 0; d < a.length; ++d) {
         var e = a[d],
           f;
         if ((f = e)) {
@@ -256,37 +257,37 @@ gapi._bs = new Date().getTime();
     },
     V = function(a) {
       var b = h.createElement(R);
-      b.setAttribute('src', a);
+      b.setAttribute('src',a);
       a = U();
-      null !== a && b.setAttribute('nonce', a);
+      null !== a && b.setAttribute('nonce',a);
       b.async = 'true';
       (a = h.getElementsByTagName(R)[0])
-        ? a.parentNode.insertBefore(b, a)
+        ? a.parentNode.insertBefore(b,a)
         : (h.head || h.body || h.documentElement).appendChild(b);
     },
-    qa = function(a, b) {
+    qa = function(a,b) {
       var c = b && b._c;
       if (c)
         for (var d = 0; d < M.length; d++) {
           var e = M[d][0],
             f = M[d][1];
-          f && Object.prototype.hasOwnProperty.call(c, e) && f(c[e], a, b);
+          f && Object.prototype.hasOwnProperty.call(c,e) && f(c[e],a,b);
         }
     },
-    ra = function(a, b, c) {
+    ra = function(a,b,c) {
       X(function() {
-        var c = b === B() ? u(z, '_', w()) : w();
-        c = u(C(b), '_', c);
+        var c = b === B() ? u(z,'_',w()) : w();
+        c = u(C(b),'_',c);
         a(c);
-      }, c);
+      },c);
     },
-    Z = function(a, b) {
+    Z = function(a,b) {
       var c = b || {};
-      'function' == typeof b && ((c = {}), (c.callback = b));
-      qa(a, c);
+      'function' == typeof b && ((c = {}),(c.callback = b));
+      qa(a,c);
       b = a ? a.split(':') : [];
       var d = c.h || oa(),
-        e = u(A, 'ah', w());
+        e = u(A,'ah',w());
       if (e['::'] && b.length) {
         a = [];
         for (var f = null; (f = b.shift()); ) {
@@ -294,7 +295,7 @@ gapi._bs = new Date().getTime();
           l = e[f] || e[(l[1] && 'ns:' + l[0]) || ''] || d;
           var k = (a.length && a[a.length - 1]) || null,
             v = k;
-          (k && k.hint == l) || ((v = { hint: l, b: [] }), a.push(v));
+          (k && k.hint == l) || ((v = { hint: l,b: [] }),a.push(v));
           v.b.push(f);
         }
         var x = a.length;
@@ -305,10 +306,10 @@ gapi._bs = new Date().getTime();
               0 == --x && y();
             });
         }
-        for (; (b = a.shift()); ) Y(b.b, c, b.hint);
-      } else Y(b || [], c, d);
+        for (; (b = a.shift()); ) Y(b.b,c,b.hint);
+      } else Y(b || [],c,d);
     },
-    Y = function(a, b, c) {
+    Y = function(a,b,c) {
       a = aa(a) || [];
       var d = b.callback,
         e = b.config,
@@ -321,21 +322,21 @@ gapi._bs = new Date().getTime();
         y = !1;
       if ((f && !l) || (!f && l))
         throw 'Timeout requires both the timeout parameter and ontimeout parameter to be set';
-      k = u(C(c), 'r', []).sort();
-      var H = u(C(c), 'L', []).sort(),
+      k = u(C(c),'r',[]).sort();
+      var H = u(C(c),'L',[]).sort(),
         E = [].concat(k),
-        W = function(a, b) {
+        W = function(a,b) {
           if (y) return 0;
           g.clearTimeout(x);
-          H.push.apply(H, p);
+          H.push.apply(H,p);
           var d = ((z || {}).config || {}).update;
-          d ? d(e) : e && u(A, 'cu', []).push(e);
+          d ? d(e) : e && u(A,'cu',[]).push(e);
           if (b) {
-            K('me0', a, E);
+            K('me0',a,E);
             try {
-              ra(b, c, v);
+              ra(b,c,v);
             } finally {
-              K('me1', a, E);
+              K('me1',a,E);
             }
           }
           return 1;
@@ -344,18 +345,18 @@ gapi._bs = new Date().getTime();
         (x = g.setTimeout(function() {
           y = !0;
           l();
-        }, f));
-      var p = T(a, H);
+        },f));
+      var p = T(a,H);
       if (p.length) {
-        p = T(a, k);
-        var r = u(A, 'CP', []),
+        p = T(a,k);
+        var r = u(A,'CP',[]),
           t = r.length;
         r[t] = function(a) {
           if (!a) return 0;
-          K('ml1', p, E);
+          K('ml1',p,E);
           var b = function(b) {
               r[t] = null;
-              W(p, a) &&
+              W(p,a) &&
                 ba(function() {
                   d && d();
                   b();
@@ -377,21 +378,21 @@ gapi._bs = new Date().getTime();
             r[t](a);
             z[I] = null;
           };
-          a = la(c, p, 'gapi.' + I, k);
-          k.push.apply(k, p);
-          K('ml0', p, E);
+          a = la(c,p,'gapi.' + I,k);
+          k.push.apply(k,p);
+          K('ml0',p,E);
           b.sync || g.___gapisync ? pa(a) : V(a);
         } else r[t](n);
       } else W(p) && d && d();
     };
-  var X = function(a, b) {
+  var X = function(a,b) {
     if (A.hee && 0 < A.hel)
       try {
         return a();
       } catch (c) {
         b && b(c),
           A.hel--,
-          Z('debug_error', function() {
+          Z('debug_error',function() {
             try {
               window.___jsl.hefn(c);
             } catch (d) {
@@ -403,12 +404,12 @@ gapi._bs = new Date().getTime();
       try {
         return a();
       } catch (c) {
-        throw (b && b(c), c);
+        throw (b && b(c),c);
       }
   };
-  z.load = function(a, b) {
+  z.load = function(a,b) {
     return X(function() {
-      return Z(a, b);
+      return Z(a,b);
     });
   };
   F.bs0 = window.gapi._bs || new Date().getTime();
@@ -417,7 +418,7 @@ gapi._bs = new Date().getTime();
   G('bs1');
   delete window.gapi._bs;
 }.call(this));
-gapi.load('', {
+gapi.load('',{
   callback: window['gapi_onload'],
   _c: {
     jsl: {
@@ -450,10 +451,10 @@ gapi.load('', {
         llang: 'en',
         iframes: {
           youtube: {
-            params: { location: ['search', 'hash'] },
+            params: { location: ['search','hash'] },
             url:
               ':socialhost:/:session_prefix:_/widget/render/youtube?usegapi\u003d1',
-            methods: ['scroll', 'openwindow'],
+            methods: ['scroll','openwindow'],
           },
           ytsubscribe: {
             url: 'https://www.youtube.com/subscribe_embed?usegapi\u003d1',
@@ -480,10 +481,10 @@ gapi.load('', {
           },
           savetoandroidpay: { url: 'https://pay.google.com/gp/v/widget/save' },
           blogger: {
-            params: { location: ['search', 'hash'] },
+            params: { location: ['search','hash'] },
             url:
               ':socialhost:/:session_prefix:_/widget/render/blogger?usegapi\u003d1',
-            methods: ['scroll', 'openwindow'],
+            methods: ['scroll','openwindow'],
           },
           evwidget: {
             params: { url: '' },
@@ -535,14 +536,14 @@ gapi.load('', {
               ':socialhost:/:session_prefix::im_prefix:_/widget/render/share?usegapi\u003d1',
           },
           plusone: {
-            params: { count: '', size: '', url: '' },
+            params: { count: '',size: '',url: '' },
             url: ':socialhost:/:session_prefix::se:_/+1/fastbutton?usegapi\u003d1',
           },
           comments: {
-            params: { location: ['search', 'hash'] },
+            params: { location: ['search','hash'] },
             url:
               ':socialhost:/:session_prefix:_/widget/render/comments?usegapi\u003d1',
-            methods: ['scroll', 'openwindow'],
+            methods: ['scroll','openwindow'],
           },
           ':im_socialhost:': 'https://plus.googleapis.com',
           backdrop: {
@@ -631,7 +632,9 @@ gapi.load('', {
       dpo: false,
     },
     fp: '180e3cac8d0babfa27776e0bc4fd78f46cf3fbe4',
-    annotation: ['interactivepost', 'recobar', 'signin2', 'autocomplete', 'profile'],
-    bimodal: ['signin', 'share'],
+    annotation: ['interactivepost','recobar','signin2','autocomplete','profile'],
+    bimodal: ['signin','share'],
   },
 });
+
+export default gapi;

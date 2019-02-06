@@ -7,7 +7,7 @@ import {
 
 const { SHOW_ALL } = VisibilityFilters
 
-export function visibilityFilter(state = SHOW_ALL, action) {
+export function visibilityFilter(state = SHOW_ALL,action) {
     switch (action.type) {
         case SET_VISIBILITY_FILTER:
             return action.filter
@@ -16,7 +16,7 @@ export function visibilityFilter(state = SHOW_ALL, action) {
     }
 }
 
-const todo = (state, action) => {
+const todo = (state,action) => {
     switch (action.type) {
         case ADD_TODO:
             return {
@@ -29,7 +29,7 @@ const todo = (state, action) => {
                 return state
             }
 
-            return Object.assign({}, state, {
+            return Object.assign({},state,{
                 completed: !state.completed
             })
 
@@ -38,16 +38,16 @@ const todo = (state, action) => {
     }
 }
 
-export const todos = (state = [], action) => {
+export const todos = (state = [],action) => {
     switch (action.type) {
         case ADD_TODO:
             return [
                 ...state,
-                todo(undefined, action)
+                todo(undefined,action)
             ]
         case TOGGLE_TODO:
             return state.map(t =>
-                todo(t, action)
+                todo(t,action)
             )
         default:
             return state
