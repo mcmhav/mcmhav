@@ -1,1 +1,1 @@
-export { default as TFTest } from './TFTest';
+export { default } from './TFTest';

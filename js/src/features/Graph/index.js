@@ -1,1 +1,1 @@
-export { default as Graph } from './GraphContainer';
+export { default } from './GraphContainer';

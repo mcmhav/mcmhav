@@ -1,1 +1,1 @@
-export { default as Snus } from './container';
+export { default } from './container';

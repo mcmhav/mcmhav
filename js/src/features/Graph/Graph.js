@@ -136,7 +136,10 @@ class Graph extends Component {
 
     Plotly.newPlot('plot', data, this.createLayout(), { showSendToCloud: false });
     window.onresize = function() {
-      Plotly.Plots.resize(document.getElementById('plot'));
+      const plot = document.getElementById('plot');
+      if (plot) {
+        Plotly.Plots.resize(plot);
+      }
     };
   };
 

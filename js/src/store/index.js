@@ -1,4 +1,8 @@
-import { compose,combineReducers,createStore,applyMiddleware } from 'redux';
+import { compose, combineReducers, createStore, applyMiddleware } from 'redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
@@ -8,30 +12,49 @@ import gapi from './dux/gapi';
 
 import sagas from './sagas';
 
-const reducers = combineReducers({
-  snus,
-  gapi,
-});
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['router'],
+};
+// const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+const reducers = history =>
+  combineReducers({
+    router: connectRouter(history),
+    snus,
+    gapi,
+  });
 
 const logger = createLogger({
   collapsed: true,
   stateTransformer: state => {
     const transformed = {};
     Object.keys(state).map(key => {
-      transformed[key] = state[key].toJS();
+      if (state[key].toJS) {
+        transformed[key] = state[key].toJS();
+      } else {
+        transformed[key] = state[key];
+      }
     });
     return transformed;
   },
 });
 
 const sagaMiddleware = createSagaMiddleware();
-// export default todoApp;
+const history = createBrowserHistory();
+const configureStore = preloadedState => {
+  const store = createStore(
+    persistReducer(persistConfig, reducers(history)),
+    preloadedState,
+    compose(applyMiddleware(routerMiddleware(history), sagaMiddleware, logger)),
+  );
 
-const store = createStore(
-  reducers,
-  compose(applyMiddleware(sagaMiddleware,logger)),
-);
+  sagaMiddleware.run(sagas);
 
-sagaMiddleware.run(sagas);
+  const persistor = persistStore(store);
 
-export { store };
+  return { store, persistor };
+};
+
+export { configureStore, history };

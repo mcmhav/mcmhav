@@ -1,5 +1,5 @@
-import React,{ Component } from 'react';
-import { Router } from './features/Router';
+import React, { Component } from 'react';
+import Router from './features/Router';
 import './App.css';
 
 class App extends Component {

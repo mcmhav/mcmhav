@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
 
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -11,56 +11,48 @@ import ShowChart from '@material-ui/icons/ShowChart';
 import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
 
-import Landing from '../Landing/Landing';
-import { TFTest } from '../TFTest';
-import { Snus } from '../Snus';
-import { Graph } from '../Graph';
+import asyncComponent from '../../components/asyncComponent';
 
 import './styles.css';
 
-const Index = Landing;
+// import Graph from '../Graph';
+// import Landing from '../Landing/Landing';
+// import { Graph } from '../Graph';
+// import { TFTest } from '../TFTest';
+// import Snus from '../Snus';
+const AsyncLanding = asyncComponent(() => import('../Landing'));
+const AsyncSnus = asyncComponent(() => import('../Snus'));
+const AsyncTFTest = asyncComponent(() => import('../TFTest'));
+const AsyncGraph = asyncComponent(() => import('../Graph'));
+
+const Index = AsyncLanding;
 const About = () => <h2>About</h2>;
 const Users = () => <h2>Users</h2>;
 
 const actions = [
   {
-    icon: (
-      <Link to="/">
-        <FileCopyIcon />
-      </Link>
-    ),
+    icon: <FileCopyIcon />,
+    path: '/',
     name: 'Home',
   },
   {
-    icon: (
-      <Link to="/users/">
-        <PrintIcon />
-      </Link>
-    ),
+    icon: <PrintIcon />,
+    path: '/users/',
     name: 'Users',
   },
   {
-    icon: (
-      <Link to="/tf">
-        <ShareIcon />
-      </Link>
-    ),
+    icon: <ShareIcon />,
+    path: '/tf',
     name: 'tf',
   },
   {
-    icon: (
-      <Link to="/snus/">
-        <SaveIcon />
-      </Link>
-    ),
+    icon: <SaveIcon />,
+    path: '/snus/',
     name: 'Snus',
   },
   {
-    icon: (
-      <Link to="/graph/">
-        <ShowChart />
-      </Link>
-    ),
+    icon: <ShowChart />,
+    path: '/graph/',
     name: 'Graph',
   },
 ];
@@ -77,6 +69,17 @@ class Navigator extends Component {
     this.setState(state => ({
       open: !state.open,
     }));
+  };
+
+  handleActionClick = path => () => {
+    this.setState(
+      state => ({
+        open: !state.open,
+      }),
+      () => {
+        this.props.push(path);
+      },
+    );
   };
 
   render() {
@@ -107,7 +110,7 @@ class Navigator extends Component {
             icon={action.icon}
             tooltipTitle={action.name}
             tooltipOpen
-            onClick={this.handleClick}
+            onClick={this.handleActionClick(action.path)}
           />
         ))}
       </SpeedDial>
@@ -117,19 +120,28 @@ class Navigator extends Component {
 
 class AppRouter extends Component {
   render() {
-    return (
-      <Router>
+    const { push } = this.props;
+    return [
+      <Switch key="the-switchh">
+        {/* <Router>
         <div id="router">
-          <Route path="/" exact component={Index} />
-          <Route path="/tf" exact component={TFTest} />
-          <Route path="/about/" component={About} />
-          <Route path="/users/" component={Users} />
-          <Route path="/snus/" component={Snus} />
-          <Route path="/graph/" component={Graph} />
-          <Navigator />
-        </div>
-      </Router>
-    );
+          <RouteOld path="/" exact component={Index} />
+          <RouteOld path="/tf" exact component={AsyncTFTest} />
+          <RouteOld path="/about/" component={About} />
+          <RouteOld path="/users/" component={Users} />
+          <RouteOld path="/snus/" component={AsyncSnus} />
+          <RouteOld path="/graph/" component={AsyncGraph} />
+          <Navigator push={push} />
+      </Router> */}
+        <Route exact path="/" render={() => <Index />} />
+        <Route path="/graph/" render={() => <AsyncGraph />} />
+        <Route path="/snus/" render={() => <AsyncSnus />} />
+        <Route path="/users/" render={() => <Users />} />
+        <Route path="/about/" render={() => <About />} />
+        <Route path="/tf/" render={() => <AsyncTFTest />} />
+      </Switch>,
+      <Navigator key="the-navigator" push={push} />,
+    ];
   }
 }
 
