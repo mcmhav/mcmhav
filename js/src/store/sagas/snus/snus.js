@@ -54,12 +54,6 @@ function initClient(resolve, reject) {
     );
 }
 
-function handleClientLoad() {
-  return new Promise((resolve, reject) => {
-    gapi.load('client:auth2', () => initClient(resolve, reject));
-  });
-}
-
 function* initGAPIClient() {
   const response = yield gapi.client.init({
     apiKey: API_KEY,

@@ -6,6 +6,8 @@ import Eject from '@material-ui/icons/Eject';
 import PermIdentity from '@material-ui/icons/PermIdentity';
 import Button from '@material-ui/core/Button';
 
+import gapi from '../../gapi';
+
 import { Fab } from '../../../../components/buttons/Fab';
 
 import styles from '../../styles';
@@ -29,6 +31,12 @@ class Adder extends Component {
     this.setState({ notes: event.target.value });
   };
 
+  gapiSignOut = () => {
+    gapi.auth2.getAuthInstance().signOut();
+  };
+  gapiSignIn = () => {
+    gapi.auth2.getAuthInstance().signIn();
+  };
   render() {
     const { notes } = this.state;
     const { notesCounts, isSignedIn, isFetching } = this.props;
@@ -38,11 +46,11 @@ class Adder extends Component {
         <div style={styles.intputWrapper}>
           <div>
             {isSignedIn ? (
-              <Fab id="signout_button">
+              <Fab id="signout_button" onClick={this.gapiSignOut}>
                 <Eject />
               </Fab>
             ) : (
-              <Fab id="authorize_button">
+              <Fab id="authorize_button" onClick={this.gapiSignIn}>
                 <PermIdentity />
               </Fab>
             )}
