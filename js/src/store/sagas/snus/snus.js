@@ -1,4 +1,4 @@
-import { OrderedSet, OrderedMap, Map, List } from 'immutable';
+import { OrderedMap } from 'immutable';
 import { select, takeEvery, call, put } from 'redux-saga/effects';
 
 import { dataSuccess, FETCH_DATA_REQUEST } from '../../dux/snus';
@@ -94,30 +94,6 @@ function* waitForClient() {
   }
 }
 
-const counter = rows => {
-  const counts = {};
-  const sorted = [];
-  rows.forEach(row => {
-    var num = row[1];
-    counts[num] = counts[num] ? counts[num] + 1 : 1;
-  });
-
-  for (var count in counts) {
-    sorted.push([count, counts[count]]);
-  }
-  sorted.sort(function(a, b) {
-    return b[1] - a[1];
-  });
-
-  const countsInfo = {
-    counts,
-    sorted,
-  };
-  countsInfo.sortedKeys = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
-
-  return countsInfo;
-};
-
 const parseRange = range => {
   // TODO: fix,hella brittle
   const split = range.split(':');
@@ -154,66 +130,113 @@ const makeSupaDataStructure = values => {
   return tables.reverse();
 };
 
+const counter2 = rows => {
+  const counts = {};
+  const sorted = [];
+  rows.forEach(row => {
+    var num = row[1];
+    counts[num] = counts[num] ? counts[num] + 1 : 1;
+  });
+
+  for (var count in counts) {
+    sorted.push([count, counts[count]]);
+  }
+  sorted.sort(function(a, b) {
+    return b[1] - a[1];
+  });
+
+  const countsInfo = {
+    counts,
+    sorted,
+  };
+  countsInfo.sortedKeys = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+  return countsInfo;
+};
+function createColsArray2(cols) {
+  const cols_arr = [];
+  Object.keys(cols)
+    .sort()
+    .reverse()
+    .forEach(key => {
+      cols_arr.push({
+        colName: key,
+        rows: cols[key],
+      });
+    });
+
+  return cols_arr;
+}
+function createCols2(values) {
+  const cols = {};
+  values.forEach(row => {
+    var date = dateFns.format(parseInt(row[2], 10), 'YYYY-MM-DD');
+
+    if (!cols[date]) {
+      cols[date] = [];
+    }
+    cols[date].push({
+      id: row[2],
+      time: row[0],
+      notes: row[1],
+      color: timeToColor(row[2]),
+    });
+    // cols[date].push(row);
+  });
+
+  return cols;
+}
+function createStructs2(rows) {
+  const cols = createCols2(rows);
+  const cols_arr = createColsArray2(cols);
+  const counts = counter2(rows);
+  const supaStruct = makeSupaDataStructure(rows);
+
+  // console.log(rows);
+  // console.log(cols);
+  // console.log(cols_arr);
+
+  return {
+    cols,
+    cols_arr,
+    counts,
+    supaStruct,
+  };
+}
+
+function mergeRows(values, rows) {
+  const newRows = {};
+  values.forEach(value => {
+    newRows[value[2]] = value;
+  });
+
+  return rows.merge(newRows);
+}
+
 function* getValues() {
   try {
     yield call(waitForClient);
 
     const state = yield select();
 
-    console.log(state);
-
     const range = state.snus.get('range');
+    const rows = state.snus.get('rows');
 
     const response = yield gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
     });
-    var counts = {};
 
-    for (var i = 0; i < response.result.values.length; i++) {
-      var num = response.result.values[i][1];
-      counts[num] = counts[num] ? counts[num] + 1 : 1;
-    }
-
-    const cols = {};
-    response.result.values.forEach(row => {
-      var date = dateFns.format(parseInt(row[2], 10), 'YYYY-MM-DD');
-
-      if (!cols[date]) {
-        cols[date] = [];
-      }
-      cols[date].push({
-        id: row[2],
-        time: row[0],
-        notes: row[1],
-        color: timeToColor(row[2]),
-      });
-      // cols[date].push(row);
-    });
-
-    const cols_arr = [];
-    Object.keys(cols)
-      .sort()
-      .reverse()
-      .forEach(key => {
-        cols_arr.push({
-          colName: key,
-          rows: cols[key],
-        });
-      });
+    const rowsUpdated = mergeRows(response.result.values, rows);
 
     const data = {
-      rows: response.result.values.map(value => {
-        return { id: value[2], time: value[0], notes: value[1] };
-      }),
-      cols,
-      cols_arr,
-      counts: counter(response.result.values),
-      supaStruct: makeSupaDataStructure(response.result.values),
+      rows: rowsUpdated,
+      // ...createStructs(response.result.values),
+      ...createStructs2(rowsUpdated),
     };
 
-    // yield put(dataSuccess(data,parseRange(response.result.range)));
-    yield put(dataSuccess(data, range));
+    yield put(dataSuccess(data, parseRange(response.result.range)));
+    // yield put(dataSuccess(data, range));
   } catch (error) {
     console.log(error);
   }

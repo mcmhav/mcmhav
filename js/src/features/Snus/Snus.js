@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { Tables } from './components/tables';
@@ -7,10 +8,6 @@ import styles from './styles';
 import './styles.css';
 
 class Snus extends Component {
-  constructor() {
-    super();
-  }
-
   async componentDidMount() {
     this.props.dataFetch();
   }
@@ -24,5 +21,9 @@ class Snus extends Component {
     );
   }
 }
+
+Snus.propTypes = {
+  dataFetch: PropTypes.func,
+};
 
 export default Snus;

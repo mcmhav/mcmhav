@@ -8,6 +8,7 @@ export const ADD_ITEM = 'snus/ADD_ITEM';
 const initialState = Map({
   supaStruct: OrderedMap({}),
   tables: List([]),
+  rows: OrderedMap({}),
   notesCounts: List([]),
   range: 'Sheet1!A2:C',
 });
@@ -55,6 +56,7 @@ function snus(state = initialState, action) {
     case FETCH_DATA_SUCCESS: {
       return (
         state
+          .set('rows', OrderedMap(action.data.rows))
           // .update('tables',tables => tables.concat(action.data.cols_arr))
           .set('tables', List(action.data.cols_arr))
           .set(

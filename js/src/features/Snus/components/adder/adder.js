@@ -18,7 +18,6 @@ class Adder extends Component {
   }
 
   onCountedPress = notes => () => {
-    console.log('press');
     this.setState({ notes }, this.onPress);
   };
 

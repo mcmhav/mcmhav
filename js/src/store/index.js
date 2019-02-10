@@ -21,12 +21,13 @@ const SnusTransform = createTransform(
     return inboundState.toJS();
   },
   // transform state being rehydrated
-  ({ supaStruct, tables, notesCounts, ...rest }, key) => {
+  ({ supaStruct, tables, notesCounts, rows, ...rest }, key) => {
     // convert mySet back to a Set.
     return Map({
       supaStruct: OrderedMap(supaStruct),
       tables: List(tables),
       notesCounts: List(notesCounts),
+      rows: OrderedMap(rows),
       ...rest,
     });
   },
@@ -42,12 +43,25 @@ const persistConfig = {
 };
 // const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const reducers = history =>
-  combineReducers({
+const reducers = history => {
+  const appReducer = combineReducers({
     router: connectRouter(history),
     snus,
     gapi,
   });
+
+  const initialState = appReducer({}, {});
+
+  const rootReducer = (state, action) => {
+    if (action.type === 'RESET_APP') {
+      state = initialState;
+    }
+
+    return appReducer(state, action);
+  };
+
+  return rootReducer;
+};
 
 const logger = createLogger({
   collapsed: true,

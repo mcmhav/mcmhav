@@ -16,6 +16,7 @@ const AsyncLanding = asyncComponent(() => import('../Landing'));
 const AsyncSnus = asyncComponent(() => import('../Snus'));
 const AsyncTFTest = asyncComponent(() => import('../TFTest'));
 const AsyncGraph = asyncComponent(() => import('../Graph'));
+const AsyncDev = asyncComponent(() => import('../Dev'));
 
 const About = () => <h2>About</h2>;
 const Users = () => <h2>Users</h2>;
@@ -74,6 +75,14 @@ const navs = [
       name: 'Graph',
     },
   },
+  {
+    route: { render: AsyncDev },
+    path: '/dev',
+    action: {
+      icon: <ShowChart />,
+      name: 'Dev',
+    },
+  },
 ];
 
 const renderRouterAndNavigator = () => {
@@ -102,10 +111,6 @@ const renderRouterAndNavigator = () => {
 const { routes, actions } = renderRouterAndNavigator();
 
 class AppRouter extends Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return [
       <Switch key="the-switchh">{routes.map(route => route)}</Switch>,
