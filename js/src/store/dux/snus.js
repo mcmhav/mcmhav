@@ -1,6 +1,7 @@
 import { Map, List, OrderedMap } from 'immutable';
 
 export const FETCH_DATA_SUCCESS = 'snus/FETCH_DATA_SUCCESS';
+export const FETCH_DATA_ERROR = 'snus/FETCH_DATA_ERROR';
 export const FETCH_DATA_REQUEST = 'snus/FETCH_DATA_REQUEST';
 
 export const ADD_ITEM = 'snus/ADD_ITEM';
@@ -11,10 +12,14 @@ const initialState = Map({
   rows: OrderedMap({}),
   notesCounts: List([]),
   range: 'Sheet1!A2:C',
+  isFetching: false,
 });
 
 export function dataSuccess(data, range) {
   return { type: FETCH_DATA_SUCCESS, data, range };
+}
+export function dataError(error) {
+  return { type: FETCH_DATA_ERROR, error };
 }
 export function dataFetch(data) {
   return { type: FETCH_DATA_REQUEST, data };
@@ -65,20 +70,13 @@ function snus(state = initialState, action) {
           )
           .set('notesCounts', List(action.data.counts.sortedKeys))
           .set('range', action.range)
+          .set('isFetching', false)
       );
     }
+    case FETCH_DATA_ERROR:
+      return state.set('isFetching', false);
     case FETCH_DATA_REQUEST:
-      return state.map((todo, index) => {
-        if (index === action.index) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed,
-          });
-        }
-        return todo;
-      });
-
-    case ADD_ITEM:
-      return state;
+      return state.set('isFetching', true);
     default:
       return state;
   }

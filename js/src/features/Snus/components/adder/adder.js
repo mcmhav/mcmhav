@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 
 import TextField from '@material-ui/core/TextField';
 import Eject from '@material-ui/icons/Eject';
@@ -30,7 +31,7 @@ class Adder extends Component {
 
   render() {
     const { notes } = this.state;
-    const { notesCounts, isSignedIn } = this.props;
+    const { notesCounts, isSignedIn, isFetching } = this.props;
 
     return (
       <div style={styles.actionsWrapper}>
@@ -69,6 +70,9 @@ class Adder extends Component {
           >
             Add item
           </Button>
+          {isFetching && (
+            <ReactLoading type="cubes" height="56px" width="56px" color="red" />
+          )}
         </div>
 
         <div className="quickAddButtons" style={styles.quickAddButtons}>

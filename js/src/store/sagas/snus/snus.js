@@ -1,7 +1,7 @@
 import { OrderedMap } from 'immutable';
 import { select, takeEvery, call, put } from 'redux-saga/effects';
 
-import { dataSuccess, FETCH_DATA_REQUEST } from '../../dux/snus';
+import { dataSuccess, dataError, FETCH_DATA_REQUEST } from '../../dux/snus';
 import { gapiSignedIn } from '../../dux/gapi';
 
 import gapi from '../../../features/Snus/gapi';
@@ -239,6 +239,7 @@ function* getValues() {
     // yield put(dataSuccess(data, range));
   } catch (error) {
     console.log(error);
+    yield put(dataError(error));
   }
 }
 
