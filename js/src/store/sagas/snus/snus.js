@@ -127,9 +127,16 @@ const makeSupaDataStructure = values => {
 const counter2 = rows => {
   const counts = {};
   const sorted = [];
+
+  const now = Date.now();
+
   rows.forEach(row => {
-    var num = row[1];
-    counts[num] = counts[num] ? counts[num] + 1 : 1;
+    const num = row[1];
+    const timeSince = (now - parseInt(row[2], 10)) / (1000 * 60 * 60 * 24);
+
+    const weight = Math.pow(Math.E, -timeSince / 10);
+
+    counts[num] = counts[num] ? counts[num] + weight : weight;
   });
 
   for (var count in counts) {
@@ -164,7 +171,7 @@ function createColsArray2(cols) {
 function createCols2(values) {
   const cols = {};
   values.forEach(row => {
-    var date = dateFns.format(parseInt(row[2], 10), 'YYYY-MM-DD');
+    const date = dateFns.format(parseInt(row[2], 10), 'YYYY-MM-DD');
 
     if (!cols[date]) {
       cols[date] = [];
