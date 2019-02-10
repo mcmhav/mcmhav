@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Plotly from 'plotly.js-dist';
+import ReactLoading from 'react-loading';
 
 import './styles.css';
 
@@ -44,14 +45,20 @@ class Graph extends Component {
   };
 
   async componentDidMount() {
+    const { rows } = this.state;
+
+    if (rows || rows.length <= 0) {
+      this.squareSizer();
+    }
+
     try {
-      const rows = await this.getCsv();
-      const y = Object.keys(rows[0])[0];
-      const cols = Object.keys(rows[0]).slice(1);
-      const startTime = rows[0][y];
-      const endTime = rows[rows.length - 1][y];
+      const table = await this.getCsv();
+      const y = Object.keys(table[0])[0];
+      const cols = Object.keys(table[0]).slice(1);
+      const startTime = table[0][y];
+      const endTime = table[table.length - 1][y];
       this.setState({
-        rows,
+        rows: table,
         startTime,
         endTime,
         cols,
@@ -143,9 +150,50 @@ class Graph extends Component {
     };
   };
 
+  setSquareSize = () => {
+    const plot = document.getElementById('plot');
+    const containerHeight = plot.offsetHeight;
+    const containerWidth = plot.offsetWidth;
+
+    let squareHeight = containerHeight;
+    let squareWidth = containerWidth;
+    if (containerHeight > containerWidth) {
+      squareHeight = containerWidth;
+      squareWidth = containerWidth;
+    } else {
+      squareHeight = containerHeight;
+      squareWidth = containerHeight;
+    }
+
+    const square = document.querySelector('.square');
+    square.style.height = `${squareHeight * 0.7}px`;
+    square.style.width = `${squareWidth * 0.7}px`;
+  };
+
+  squareSizer = () => {
+    this.setSquareSize();
+    window.onresize = this.setSquareSize;
+  };
+
   render() {
+    const { rows } = this.state;
     this.createPlot();
-    return <div id="plot" />;
+
+    return (
+      <div key="the-plot" id="plot">
+        {rows.length <= 0 && (
+          <div className="square">
+            <ReactLoading
+              className="loader"
+              type="cubes"
+              color={'red'}
+              height={'100%'}
+              width={'100%'}
+            />
+          </div>
+        )}
+      </div>
+    );
   }
 }
 

@@ -83,7 +83,14 @@ const renderRouterAndNavigator = () => {
     const { render, ...rest } = nav.route;
     let RenderTmp = render;
 
-    routes.push(<Route render={() => <RenderTmp />} path={nav.path} {...rest} />);
+    routes.push(
+      <Route
+        key={`route-key-${nav.action.name}`}
+        render={() => <RenderTmp />}
+        path={nav.path}
+        {...rest}
+      />,
+    );
     actions.push({
       ...nav.action,
       path: nav.path,

@@ -160,6 +160,8 @@ function* getValues() {
 
     const state = yield select();
 
+    console.log(state);
+
     const range = state.snus.get('range');
 
     const response = yield gapi.client.sheets.spreadsheets.values.get({

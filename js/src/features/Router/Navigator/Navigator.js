@@ -19,8 +19,6 @@ class Navigator extends Component {
   };
 
   handleActionClick = path => event => {
-    console.log(event);
-
     this.setState(
       state => ({
         open: !state.open,

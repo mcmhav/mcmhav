@@ -1,7 +1,7 @@
 import { compose, combineReducers, createStore, applyMiddleware } from 'redux';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import createSagaMiddleware from 'redux-saga';
@@ -12,10 +12,33 @@ import gapi from './dux/gapi';
 
 import sagas from './sagas';
 
+import { Map, List, OrderedMap } from 'immutable';
+
+const SnusTransform = createTransform(
+  // transform state on its way to being serialized and persisted.
+  (inboundState, key) => {
+    // convert mySet to an Array.
+    return inboundState.toJS();
+  },
+  // transform state being rehydrated
+  ({ supaStruct, tables, notesCounts, ...rest }, key) => {
+    // convert mySet back to a Set.
+    return Map({
+      supaStruct: OrderedMap(supaStruct),
+      tables: List(tables),
+      notesCounts: List(notesCounts),
+      ...rest,
+    });
+  },
+  // define which reducers this transform gets called for.
+  { whitelist: ['snus'] },
+);
+
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['router'],
+  whitelist: ['router', 'snus'],
+  transforms: [SnusTransform],
 };
 // const persistedReducer = persistReducer(persistConfig, rootReducer)
 

@@ -1,4 +1,4 @@
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import Eject from '@material-ui/icons/Eject';
@@ -19,7 +19,7 @@ class Adder extends Component {
 
   onCountedPress = notes => () => {
     console.log('press');
-    this.setState({ notes },this.onPress);
+    this.setState({ notes }, this.onPress);
   };
 
   onPress = () => {
@@ -31,7 +31,7 @@ class Adder extends Component {
 
   render() {
     const { notes } = this.state;
-    const { notesCounts,isSignedIn } = this.props;
+    const { notesCounts, isSignedIn } = this.props;
 
     return (
       <div style={styles.actionsWrapper}>
@@ -77,11 +77,11 @@ class Adder extends Component {
             return (
               <Button
                 style={styles.quickAddButton}
-                id={`${count.replace(/ /g,'-')}-key`}
+                id={`${count.replace(/ /g, '-')}-key`}
                 variant="outlined"
                 color="secondary"
                 onClick={this.onCountedPress(count)}
-                key={`${count.replace(/ /g,'-')}-key`}
+                key={`${count.replace(/ /g, '-')}-key`}
               >
                 {count}
               </Button>

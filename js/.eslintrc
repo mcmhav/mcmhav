@@ -1,13 +1,14 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react"],
+  "plugins": ["react", "prettier"],
   "ecmaFeatures": {
     "jsx": true,
     "modules": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "prettier"
   ],
   "env": {
     "browser": true,
@@ -21,6 +22,7 @@
     }
   },
   "rules": {
+    "prettier/prettier": "error",
     "comma-dangle": ["error","always-multiline"],
     "quotes": [1,"single"],
     "no-undef": 1,

@@ -8,5 +8,5 @@ export function* helloSaga() {
 }
 
 export default function* rootSaga() {
-  yield all([snusSaga(),helloSaga()]);
+  yield all([snusSaga(), helloSaga()]);
 }
