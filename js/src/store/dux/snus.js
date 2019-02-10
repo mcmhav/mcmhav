@@ -64,10 +64,10 @@ function snus(state = initialState, action) {
           .set('rows', OrderedMap(action.data.rows))
           // .update('tables',tables => tables.concat(action.data.cols_arr))
           .set('tables', List(action.data.cols_arr))
-          .set(
-            'supaStruct',
-            addDataToTable(state.get('supaStruct'), action.data.supaStruct),
-          )
+          // .set(
+          //   'supaStruct',
+          //   addDataToTable(state.get('supaStruct'), action.data.supaStruct),
+          // )
           .set('notesCounts', List(action.data.counts.sortedKeys))
           .set('range', action.range)
           .set('isFetching', false)

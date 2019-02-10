@@ -159,7 +159,7 @@ class Landing extends Component {
         onInjected={this.onInjected}
         renumerateIRIElements={false}
         svgClassName="svg-class-name"
-        svgStyle={{ width: '100%', height: '100%' }}
+        svgStyle={{ width: '99%', height: '99%' }}
         className="svg-wrapper"
         onClick={this.onClick}
         onMouseMove={this.onMouseMove}

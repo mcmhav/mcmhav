@@ -1,10 +1,9 @@
 dispatch:
-  - url: "*/temp-graph"
-    service: pi-sensor-graph
-  - url: "*/temp-graph*"
-    service: pi-sensor-graph
-
   - url: "*/tf"
     service: default
   - url: "*/*"
+    service: default
+  - url: "*/snus"
+    service: default
+  - url: "*/snus/*"
     service: default
