@@ -1,5 +1,7 @@
 steps:
 - name: "gcr.io/cloud-builders/yarn"
+  args: ["--cwd", "js", "install"]
+- name: "gcr.io/cloud-builders/yarn"
   args: ["--cwd", "js", "build"]
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy", "server/app.yaml"]
