@@ -1,6 +1,6 @@
 steps:
 - name: "gcr.io/cloud-builders/yarn"
-  args: ["build", "--cwd", "js"]
+  args: ["--cwd", "js", "build"]
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy", "server/app.yaml"]
 timeout: "1600s"
