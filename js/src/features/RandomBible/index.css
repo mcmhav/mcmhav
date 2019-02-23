@@ -1,0 +1,11 @@
+
+.bible {
+  max-width: 800px;
+  /* padding:  30px; */
+  color: red;
+  font-size: 3.5rem;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  height: 99vh;
+}

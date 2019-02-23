@@ -17,6 +17,8 @@ const AsyncSnus = asyncComponent(() => import('../Snus'));
 const AsyncTFTest = asyncComponent(() => import('../TFTest'));
 const AsyncGraph = asyncComponent(() => import('../Graph'));
 const AsyncDev = asyncComponent(() => import('../Dev'));
+const AsyncRandomBible = asyncComponent(() => import('../RandomBible'));
+const AsyncAmGraph = asyncComponent(() => import('../AmGraph'));
 
 const About = () => <h2>About</h2>;
 const Users = () => <h2>Users</h2>;
@@ -76,11 +78,27 @@ const navs = [
     },
   },
   {
+    route: { render: AsyncAmGraph },
+    path: '/amgraph',
+    action: {
+      icon: <ShowChart />,
+      name: 'AmGraph',
+    },
+  },
+  {
     route: { render: AsyncDev },
     path: '/dev',
     action: {
       icon: <ShowChart />,
       name: 'Dev',
+    },
+  },
+  {
+    route: { render: AsyncRandomBible },
+    path: '/randomBible',
+    action: {
+      icon: <ShowChart />,
+      name: 'RandomBible',
     },
   },
 ];
