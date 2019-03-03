@@ -24,11 +24,18 @@ class Adder extends Component {
     this.setState({ notes }, this.onPress);
   };
 
+  notesAddFormater = notes => {
+    return notes.trim();
+  };
   onPress = () => {
-    this.props.addItem(this.state.notes);
+    this.props.addItem(this.notesAddFormater(this.state.notes));
+  };
+  notesFormater = notes => {
+    const arrow = '►';
+    return notes.replace(/->/g, arrow);
   };
   onChange = event => {
-    this.setState({ notes: event.target.value });
+    this.setState({ notes: this.notesFormater(event.target.value) });
   };
 
   gapiSignOut = () => {

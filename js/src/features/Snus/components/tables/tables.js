@@ -45,6 +45,7 @@ class Tables extends Component {
           tableName={`${table.colName} - ${table.rows.length}`}
           headers={headers}
           rows={table.rows}
+          classes={{ cell: 'table-cell' }}
         />
       );
     });

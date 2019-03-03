@@ -1,4 +1,4 @@
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -24,12 +24,13 @@ const styles = theme => ({
   cell: {
     whiteSpace: 'nowrap',
     borderBottom: '1px solid rgb(144,99,99)',
+    padding: '0 10px !important',
   },
 });
 
 class SimpleTable extends Component {
   render() {
-    const { classes,tableName,headers,rows } = this.props;
+    const { classes, tableName, headers, rows } = this.props;
 
     const padding = 'dense';
 
@@ -40,11 +41,13 @@ class SimpleTable extends Component {
           <TableHead>
             <TableRow className={classes.row}>
               {headers.map(header => {
+                const align = header.title === 'Notes' ? 'right' : 'left';
                 return (
                   <TableCell
                     padding={padding}
                     key={header.id}
                     className={classes.cell}
+                    align={align}
                   >
                     {header.title}
                   </TableCell>
