@@ -32,7 +32,7 @@ class Graph extends Component {
   getCsv = () => {
     return new Promise((resolve, reject) => {
       Plotly.d3.csv(
-        'https://slabbery-beaver-6557.dataplicity.io/tempratures.csv',
+        'https://freewheeling-goat-0436.dataplicity.io/tempratures.csv',
         (err, rows) => {
           if (err) {
             reject(err);
