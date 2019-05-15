@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { SimpleTable } from '../../../../components/tables/SimpleTable';
+import { isWeekend } from 'date-fns';
 
 import styles from '../../styles';
 
@@ -45,7 +46,18 @@ class Tables extends Component {
           tableName={`${table.colName} - ${table.rows.length}`}
           headers={headers}
           rows={table.rows}
-          classes={{ cell: 'table-cell' }}
+          classes={{
+            cell: 'table-cell',
+          }}
+          styles={{
+            paper: {
+              backgroundColor: !table.rows.length
+                ? 'rgb(255, 229, 90)'
+                : isWeekend(table.colName)
+                ? 'rgb(134, 188, 245)'
+                : '#fb9d9d',
+            },
+          }}
         />
       );
     });

@@ -12,6 +12,7 @@ import asyncComponent from '../../components/asyncComponent';
 
 import './styles.css';
 
+const AsyncMap = asyncComponent(() => import('../Map'));
 const AsyncLanding = asyncComponent(() => import('../Landing'));
 const AsyncSnus = asyncComponent(() => import('../Snus'));
 const AsyncTFTest = asyncComponent(() => import('../TFTest'));
@@ -99,6 +100,14 @@ const navs = [
     action: {
       icon: <ShowChart />,
       name: 'RandomBible',
+    },
+  },
+  {
+    route: { render: AsyncMap },
+    path: '/map',
+    action: {
+      icon: <ShowChart />,
+      name: 'Map',
     },
   },
 ];

@@ -170,6 +170,15 @@ function createColsArray2(cols) {
 }
 function createCols2(values) {
   const cols = {};
+  const timestamps = Object.keys(values.map(row => parseInt(row[2], 10)).toJS());
+  const minTs = Math.min(...timestamps);
+  const maxTs = Date.now();
+
+  const dateRange = dateFns.eachDay(minTs, maxTs);
+  dateRange.forEach(date => {
+    cols[dateFns.format(date, 'YYYY-MM-DD')] = [];
+  });
+
   values.forEach(row => {
     const date = dateFns.format(parseInt(row[2], 10), 'YYYY-MM-DD');
 

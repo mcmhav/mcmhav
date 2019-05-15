@@ -30,13 +30,15 @@ const styles = theme => ({
 
 class SimpleTable extends Component {
   render() {
-    const { classes, tableName, headers, rows } = this.props;
+    const { classes, tableName, headers, rows, styles } = this.props;
 
     const padding = 'dense';
 
     return (
-      <Paper className={classes.root} style={{ backgroundColor: '#fb9d9d' }}>
-        <div style={{ paddingTop: '10px' }}>{tableName}</div>
+      <Paper className={classes.root} style={styles.paper}>
+        <div style={{ padding: '10px 5px 0', whiteSpace: 'nowrap' }}>
+          {tableName}
+        </div>
         <Table className={classes.table} padding={padding}>
           <TableHead>
             <TableRow className={classes.row}>
@@ -90,6 +92,14 @@ class SimpleTable extends Component {
 
 SimpleTable.propTypes = {
   classes: PropTypes.object.isRequired,
+  tableName: PropTypes.string.isRequired,
+  headers: PropTypes.array.isRequired,
+  rows: PropTypes.array,
+  styles: PropTypes.object,
+};
+SimpleTable.defaultProps = {
+  styles: {},
+  rows: [],
 };
 
 export default withStyles(styles)(SimpleTable);
