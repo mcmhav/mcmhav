@@ -20,6 +20,7 @@ const AsyncGraph = asyncComponent(() => import('../Graph'));
 const AsyncDev = asyncComponent(() => import('../Dev'));
 const AsyncRandomBible = asyncComponent(() => import('../RandomBible'));
 const AsyncAmGraph = asyncComponent(() => import('../AmGraph'));
+const AsyncStravaAuth = asyncComponent(() => import('../StravaAuth'));
 
 const About = () => <h2>About</h2>;
 const Users = () => <h2>Users</h2>;
@@ -108,6 +109,14 @@ const navs = [
     action: {
       icon: <ShowChart />,
       name: 'Map',
+    },
+  },
+  {
+    route: { render: AsyncStravaAuth },
+    path: '/strava-auth',
+    action: {
+      icon: <ShowChart />,
+      name: 'StravaAuth',
     },
   },
 ];

@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import './styles.css';
 
-const API_KEY = 'THE_KEYY';
+const API_KEY = 'AIzaSyD_ly-B7d2kwr0zoGlCJSu4yPJuFrNbPsk';
 const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=testur`;
 
 const TOTAL_LENGTH_KM = 1735;
@@ -24,18 +24,65 @@ const OSLO = { lat: 59.9138057, lng: 10.7441073 };
 const TROMSO = { lat: 69.6442642, lng: 18.9562726 };
 
 function loadScript(scriptUrl, callback) {
-  const script = document.createElement('script');
-  script.src = scriptUrl;
-  // script.async = true;
-  // script.defer = true;
-  window.testur = callback;
-  document.body.appendChild(script);
+  const mapsApiScript = document.getElementById('maps-api-script');
+  if (!mapsApiScript) {
+    const script = document.createElement('script');
+    script.src = scriptUrl;
+    script.id = 'maps-api-script';
+    // script.async = true;
+    // script.defer = true;
+    window.testur = callback;
+    document.body.appendChild(script);
+  } else {
+    callback();
+  }
+}
+
+function hashCode(str) {
+  // java String#hashCode
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+}
+
+function intToRGB(i) {
+  var c = (i & 0x00ffffff).toString(16).toUpperCase();
+
+  return '#' + '00000'.substring(0, 6 - c.length) + c;
 }
 
 class Map extends Component {
   constructor() {
     super();
+    this.state = {
+      distances: [],
+    };
   }
+
+  getDistances = async () => {
+    return new Promise((resolve, reject) => {
+      fetch('https://strava-activites-dot-cake-mcmhav.appspot.com/activites')
+        .then(res => {
+          return res.json();
+        })
+        .then(jsonRes => {
+          console.log(jsonRes);
+          const distances = [];
+          jsonRes.forEach(distance => {
+            distances.push({
+              ...distance,
+              color: intToRGB(hashCode(distance.userId)),
+            });
+          });
+          resolve(distances);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  };
 
   waitForGoogleMapsStuff = () => {
     setTimeout(() => {
@@ -62,14 +109,40 @@ class Map extends Component {
     });
   };
 
-  googleDoneLoading = () => {
+  addUserLegends = distances => {
+    const mapLegend = document.getElementById('map-legend');
+
+    distances.forEach(({ firstname, lastname, color }) => {
+      const div = document.createElement('div');
+      div.className = 'legend-row';
+
+      const name = document.createElement('span');
+      name.className = 'legend-name';
+      const textNode = document.createTextNode(`${firstname} ${lastname}:`);
+      name.appendChild(textNode);
+      div.appendChild(name);
+
+      const cirlce = document.createElement('span');
+      cirlce.className = 'legend-color-circle';
+      cirlce.style.backgroundColor = color;
+
+      div.appendChild(cirlce);
+
+      mapLegend.appendChild(div);
+    });
+  };
+
+  googleDoneLoading = async () => {
     const from = new google.maps.LatLng(OSLO);
     const to = new google.maps.LatLng(TROMSO);
 
     const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to);
-    console.log(distance);
 
-    this.addFractionDistances(from, to, TEST_DISTANCES, distance);
+    const distances = await this.getDistances();
+
+    this.addFractionDistances(from, to, distances, distance);
+
+    this.addUserLegends(distances);
 
     document.getElementById('map').style.position = '';
     document.getElementById('map').style.hidden = '';
@@ -99,9 +172,7 @@ class Map extends Component {
 
     this.addPath(OSLO, TROMSO, '#FF0000', 0.4);
 
-    if (!google.maps.geometry) {
-      this.waitForGoogleMapsStuff();
-    }
+    this.waitForGoogleMapsStuff();
   };
 
   componentDidMount() {
@@ -111,6 +182,7 @@ class Map extends Component {
     return (
       <div>
         <div id="map" />
+        <div id="map-legend" />
       </div>
     );
   }

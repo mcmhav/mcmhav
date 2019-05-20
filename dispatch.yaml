@@ -1,9 +1,16 @@
 dispatch:
-  - url: "*/tf"
+  - url: '*/tf'
     service: default
-  - url: "*/*"
+  - url: '*/snus'
     service: default
-  - url: "*/snus"
+  - url: '*/snus/*'
     service: default
-  - url: "*/snus/*"
-    service: default
+
+  - url: 'cake-mcmhav.appspot.com/strava-activities/strava-activities/*'
+    service: strava-activites
+  - url: '*/strava-activities/*'
+    service: strava-activites
+  - url: 'cake-mcmhav.appspot.com/strava-auth/strava-auth/*'
+    service: strava-auth
+  - url: '*/strava-auth/*'
+    service: strava-auth
