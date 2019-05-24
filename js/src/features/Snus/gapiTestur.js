@@ -4,7 +4,7 @@ import './gapi';
 import env from '../../env';
 // Client ID and API key from the Developer Console
 
-const { CLIENT_ID,API_KEY,spreadsheetId,DISCOVERY_DOCS,SCOPES } = env;
+const { CLIENT_ID, API_KEY, spreadsheetId, DISCOVERY_DOCS, SCOPES } = env;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 
@@ -23,8 +23,8 @@ function connectElements() {
  */
 function handleClientLoad() {
   connectElements();
-  return new Promise((resolve,reject) => {
-    gapi.load('client:auth2',() => initClient(resolve,reject));
+  return new Promise((resolve, reject) => {
+    gapi.load('client:auth2', () => initClient(resolve, reject));
   });
 }
 
@@ -32,7 +32,7 @@ function handleClientLoad() {
  *  Initializes the API client library and sets up sign-in state
  *  listeners.
  */
-function initClient(resolve,reject) {
+function initClient(resolve, reject) {
   gapi.client
     .init({
       apiKey: API_KEY,
