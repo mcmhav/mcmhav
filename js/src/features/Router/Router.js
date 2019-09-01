@@ -21,6 +21,7 @@ const AsyncDev = asyncComponent(() => import('../Dev'));
 const AsyncRandomBible = asyncComponent(() => import('../RandomBible'));
 const AsyncAmGraph = asyncComponent(() => import('../AmGraph'));
 const AsyncStravaAuth = asyncComponent(() => import('../StravaAuth'));
+const AsyncDeltaFosB = asyncComponent(() => import('../DeltaFosB'));
 
 const About = () => <h2>About</h2>;
 const Users = () => <h2>Users</h2>;
@@ -109,6 +110,14 @@ const navs = [
     action: {
       icon: <ShowChart />,
       name: 'Map',
+    },
+  },
+  {
+    route: { render: AsyncDeltaFosB },
+    path: '/deltafosb',
+    action: {
+      icon: <ShowChart />,
+      name: 'ΔFosB',
     },
   },
   {

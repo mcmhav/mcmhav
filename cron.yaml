@@ -1,0 +1,5 @@
+cron:
+  - description: 'Fetch activities from strava'
+    url: /fetchFromStrava
+    schedule: every 3 hours
+    target: 'strava-activites'

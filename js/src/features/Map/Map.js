@@ -22,6 +22,7 @@ const TEST_DISTANCES = [
 
 const OSLO = { lat: 59.9138057, lng: 10.7441073 };
 const TROMSO = { lat: 69.6442642, lng: 18.9562726 };
+const BAGHDAD = { lat: 33.3152, lng: 44.3661 };
 
 function loadScript(scriptUrl, callback) {
   const mapsApiScript = document.getElementById('maps-api-script');
@@ -94,17 +95,50 @@ class Map extends Component {
     }, 1000);
   };
 
-  addFractionDistances = (from, to, distances, totalDistance) => {
+  addFractionPath = (fromLocation, toLocation, fraction, color) => {
+    const fractionLocation = google.maps.geometry.spherical.interpolate(
+      fromLocation,
+      toLocation,
+      fraction,
+    );
+    //console.log('totalDistanceLeft:', totalDistanceLeft);
+    //console.log('distance:', distance);
+    //console.log('fractionLocation:', fractionLocation);
+
+    this.addPath(fromLocation, fractionLocation, color);
+
+    return fractionLocation;
+  };
+
+  addFractionDistances = (from, to, distances) => {
+    //const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to);
+    let currentTo = 0;
+    let toLocation = to[currentTo];
     let fromLocation = from;
+    let totalDistanceLeft =
+      google.maps.geometry.spherical.computeDistanceBetween(from, toLocation) / 1000;
     distances.forEach(({ distance, color }) => {
-      const fractionLocation = google.maps.geometry.spherical.interpolate(
+      let fraction = distance / totalDistanceLeft;
+      if (fraction > 1) {
+        fromLocation = this.addFractionPath(fromLocation, toLocation, 1, color);
+
+        currentTo += 1;
+        toLocation = to[currentTo];
+        totalDistanceLeft =
+          google.maps.geometry.spherical.computeDistanceBetween(
+            fromLocation,
+            toLocation,
+          ) / 1000;
+        fraction = (distance * (fraction - 1)) / totalDistanceLeft;
+      }
+      const fractionLocation = this.addFractionPath(
         fromLocation,
-        to,
-        distance / (totalDistance / 1000),
+        toLocation,
+        fraction,
+        color,
       );
 
-      this.addPath(fromLocation, fractionLocation, color);
-
+      totalDistanceLeft -= distance;
       fromLocation = fractionLocation;
     });
   };
@@ -135,12 +169,11 @@ class Map extends Component {
   googleDoneLoading = async () => {
     const from = new google.maps.LatLng(OSLO);
     const to = new google.maps.LatLng(TROMSO);
-
-    const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to);
+    const tos = [to, new google.maps.LatLng(BAGHDAD)];
 
     const distances = await this.getDistances();
 
-    this.addFractionDistances(from, to, distances, distance);
+    this.addFractionDistances(from, tos, distances);
 
     this.addUserLegends(distances);
 
