@@ -6,8 +6,6 @@ import Eject from '@material-ui/icons/Eject';
 import PermIdentity from '@material-ui/icons/PermIdentity';
 import Button from '@material-ui/core/Button';
 
-import gapi from '../../gapi';
-
 import { Fab } from '../../../../components/buttons/Fab';
 
 import styles from '../../styles';
@@ -39,10 +37,10 @@ class Adder extends Component {
   };
 
   gapiSignOut = () => {
-    gapi.auth2.getAuthInstance().signOut();
+    window.gapi.auth2.getAuthInstance().signOut();
   };
   gapiSignIn = () => {
-    gapi.auth2.getAuthInstance().signIn();
+    window.gapi.auth2.getAuthInstance().signIn();
   };
   render() {
     const { notes } = this.state;

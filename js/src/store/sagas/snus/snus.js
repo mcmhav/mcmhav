@@ -4,7 +4,7 @@ import { select, takeEvery, call, put } from 'redux-saga/effects';
 import { dataSuccess, dataError, FETCH_DATA_REQUEST } from '../../dux/snus';
 import { gapiSignedIn } from '../../dux/gapi';
 
-import gapi from '../../../features/Snus/gapi';
+import gapi, { loadGapiScript } from '../../../features/Snus/gapi';
 import env from '../../../env';
 import dateFns from 'date-fns';
 
@@ -29,7 +29,7 @@ function* updateSigninStatus(isSignedIn) {
 }
 
 function initClient(resolve, reject) {
-  gapi.client
+  window.gapi.client
     .init({
       apiKey: API_KEY,
       clientId: CLIENT_ID,
@@ -39,10 +39,10 @@ function initClient(resolve, reject) {
     .then(
       () => {
         // Listen for sign-in state changes.
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        window.gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
         // Handle the initial sign-in state.
-        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        updateSigninStatus(window.gapi.auth2.getAuthInstance().isSignedIn.get());
         // authorizeButton.onclick = handleAuthClick;
         // signoutButton.onclick = handleSignoutClick;
         resolve();
@@ -55,22 +55,22 @@ function initClient(resolve, reject) {
 }
 
 function* initGAPIClient() {
-  const response = yield gapi.client.init({
+  const response = yield window.gapi.client.init({
     apiKey: API_KEY,
     clientId: CLIENT_ID,
     discoveryDocs: DISCOVERY_DOCS,
     scope: SCOPES,
   });
 
-  // gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+  // window.gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
   // Handle the initial sign-in state.
-  yield call(updateSigninStatus, gapi.auth2.getAuthInstance().isSignedIn.get());
+  yield call(updateSigninStatus, window.gapi.auth2.getAuthInstance().isSignedIn.get());
 }
 
 function loadGAPIClient() {
   return new Promise(resolve => {
-    gapi.load('client:auth2', () => {
+    window.gapi.load('client:auth2', () => {
       // TODO: should do a calback check for resolve/reject
       resolve();
     });
@@ -79,6 +79,7 @@ function loadGAPIClient() {
 
 function* waitForClient() {
   try {
+    yield call(loadGapiScript);
     yield call(loadGAPIClient);
     yield call(initGAPIClient);
 
@@ -232,7 +233,7 @@ function* getValues() {
     const range = state.snus.get('range');
     const rows = state.snus.get('rows');
 
-    const response = yield gapi.client.sheets.spreadsheets.values.get({
+    const response = yield window.gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
     });
