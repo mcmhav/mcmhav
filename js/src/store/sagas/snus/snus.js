@@ -4,7 +4,7 @@ import { select, takeEvery, call, put } from 'redux-saga/effects';
 import { dataSuccess, dataError, FETCH_DATA_REQUEST } from '../../dux/snus';
 import { gapiSignedIn } from '../../dux/gapi';
 
-import gapi, { loadGapiScript } from '../../../features/Snus/gapi';
+import { loadGapiScript } from '../../../features/Snus/gapi';
 import env from '../../../env';
 import dateFns from 'date-fns';
 
