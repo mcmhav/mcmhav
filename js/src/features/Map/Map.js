@@ -119,19 +119,22 @@ class Map extends Component {
     let fromLocation = from;
     let totalDistanceLeft =
       google.maps.geometry.spherical.computeDistanceBetween(from, toLocation) / 1000;
+
     distances.forEach(({ distance, color }) => {
-      let fraction = distance / totalDistanceLeft;
+      let distanceLeft = distance;
+      let fraction = distanceLeft / totalDistanceLeft;
       if (fraction > 1) {
         fromLocation = this.addFractionPath(fromLocation, toLocation, 1, color);
 
         currentTo += 1;
         toLocation = to[currentTo];
+        distanceLeft = distanceLeft - totalDistanceLeft;
         totalDistanceLeft =
           google.maps.geometry.spherical.computeDistanceBetween(
             fromLocation,
             toLocation,
           ) / 1000;
-        fraction = (distance * (fraction - 1)) / totalDistanceLeft;
+        fraction = distanceLeft / totalDistanceLeft;
       }
       const fractionLocation = this.addFractionPath(
         fromLocation,
@@ -140,7 +143,7 @@ class Map extends Component {
         color,
       );
 
-      totalDistanceLeft -= distance;
+      totalDistanceLeft -= distanceLeft;
       fromLocation = fractionLocation;
     });
   };
