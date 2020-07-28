@@ -1,8 +1,8 @@
 import { OrderedMap } from 'immutable';
-import { select, takeEvery, call, put } from 'redux-saga/effects';
+import { select, takeEvery, take, call, put } from 'redux-saga/effects';
 
 import { dataSuccess, dataError, FETCH_DATA_REQUEST } from '../../dux/snus';
-import { gapiSignedIn } from '../../dux/gapi';
+import { gapiSignedIn, GAPI_SIGNIN } from '../../dux/gapi';
 
 import gapi, { loadGapiScript } from '../../../features/Snus/gapi';
 import env from '../../../env';
@@ -65,7 +65,10 @@ function* initGAPIClient() {
   // window.gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
   // Handle the initial sign-in state.
-  yield call(updateSigninStatus, window.gapi.auth2.getAuthInstance().isSignedIn.get());
+  yield call(
+    updateSigninStatus,
+    window.gapi.auth2.getAuthInstance().isSignedIn.get(),
+  );
 }
 
 function loadGAPIClient() {
@@ -229,6 +232,10 @@ function* getValues() {
     yield call(waitForClient);
 
     const state = yield select();
+
+    if (!state.gapi.get('isSignedIn')) {
+      yield take(GAPI_SIGNIN);
+    }
 
     const range = state.snus.get('range');
     const rows = state.snus.get('rows');

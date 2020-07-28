@@ -1,10 +1,12 @@
 /*global google:true*/
 
 import React, { Component } from 'react';
+import env from '../../env';
+
 import './styles.css';
 
-const API_KEY = 'AIzaSyD_ly-B7d2kwr0zoGlCJSu4yPJuFrNbPsk';
-const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=testur`;
+const { MAP_API_KEY } = env;
+const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&callback=testur`;
 
 const TOTAL_LENGTH_KM = 1735;
 

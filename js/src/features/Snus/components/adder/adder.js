@@ -40,7 +40,14 @@ class Adder extends Component {
     window.gapi.auth2.getAuthInstance().signOut();
   };
   gapiSignIn = () => {
-    window.gapi.auth2.getAuthInstance().signIn();
+    window.gapi.auth2
+      .getAuthInstance()
+      .signIn()
+      .then((result, error) => {
+        if (!error) {
+          this.props.gapiSignedIn(true);
+        }
+      });
   };
   render() {
     const { notes } = this.state;

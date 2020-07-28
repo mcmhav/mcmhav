@@ -4,6 +4,19 @@ import PropTypes from 'prop-types';
 
 import './styles.css';
 
+// https://www.researchgate.net/figure/FosB-is-an-unusually-stable-transcription-factor-The-half-life-of-FosB-is-10-h-in-cell_fig1_7092860
+// https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1880876/#R7
+// https://www.ncbi.nlm.nih.gov/pubmed/9712664
+// https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1880876/#R8
+// https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1880876/
+// https://www.jneurosci.org/content/26/19/5131
+// https://en.wikipedia.org/wiki/C-Fos
+// https://www.ncbi.nlm.nih.gov/pmc/articles/PMC58680/
+// https://upload.wikimedia.org/wikipedia/commons/4/4b/ΔFosB_accumulation.svg
+
+// graph:
+// https://bl.ocks.org/interwebjill/8122dd08da9facf8c6ef6676be7da03f
+
 function kernelDensityEstimator(kernel, X) {
   return function(V) {
     return X.map(function(x) {

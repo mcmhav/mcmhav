@@ -2,8 +2,6 @@ import { takeEvery, put, call } from 'redux-saga/effects';
 
 import { ADD_ITEM, dataFetch } from '../../dux/snus';
 
-import gapi from '../../../features/Snus/gapi';
-
 import env from '../../../env';
 
 const { spreadsheetId } = env;
@@ -31,7 +29,9 @@ function* addItem(action) {
   };
 
   try {
-    const response = yield gapi.client.sheets.spreadsheets.values.append(params);
+    const response = yield window.gapi.client.sheets.spreadsheets.values.append(
+      params,
+    );
     console.log(response.result);
     yield put(dataFetch());
     retries = 0;
@@ -46,7 +46,7 @@ function* addItem(action) {
       if (code === 401 && retries < 3) {
         retries += 1;
         try {
-          yield gapi.auth2
+          yield window.gapi.auth2
             .getAuthInstance()
             .currentUser.get()
             .reloadAuthResponse();
