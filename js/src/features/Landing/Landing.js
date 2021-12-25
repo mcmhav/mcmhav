@@ -121,14 +121,12 @@ class Landing extends Component {
       this.polies.forEach(poly => {
         // console.log(poly.attributes.fill.nodeValue);
         // const colors = poly.attributes.fill.nodeValue
-        //   .replace('#','')
         //   .match(colorRegex);
         // const color = {
         //   L: colors[0],
         //   A: colors[1],
         //   b: colors[2],
         // };
-        // const { maxHeight,maxWidth } = p
 
         poly.attributes.points.nodeValue.split(' ').forEach(point => {
           const xy = point.split(',');
