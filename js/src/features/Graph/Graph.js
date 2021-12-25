@@ -142,7 +142,7 @@ class Graph extends Component {
     });
 
     Plotly.newPlot('plot', data, this.createLayout(), { showSendToCloud: false });
-    window.onresize = function() {
+    window.onresize = function () {
       const plot = document.getElementById('plot');
       if (plot) {
         Plotly.Plots.resize(plot);

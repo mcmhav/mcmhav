@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 
 import TextField from '@material-ui/core/TextField';
@@ -115,5 +116,13 @@ class Adder extends Component {
     );
   }
 }
+
+Adder.propTypes = {
+  gapiSignedIn: PropTypes.func,
+  addItem: PropTypes.func,
+  notesCounts: PropTypes.object,
+  isSignedIn: PropTypes.bool,
+  isFetching: PropTypes.bool,
+};
 
 export default Adder;

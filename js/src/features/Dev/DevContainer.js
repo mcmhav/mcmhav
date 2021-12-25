@@ -10,7 +10,4 @@ const mapDispatchToProps = dispatch => {
     resetApp: () => dispatch({ type: 'RESET_APP' }),
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Dev);
+export default connect(mapStateToProps, mapDispatchToProps)(Dev);

@@ -1,69 +1,59 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
-class Navigator extends Component {
-  constructor() {
-    super();
-    this.state = {
-      open: false,
-    };
-  }
+function Navigator(props) {
+  const { actions } = props;
+  const [open, setOpen] = useState(false);
 
-  handleClick = () => {
-    this.setState(state => ({
-      open: !state.open,
-    }));
+  const handleClick = () => {
+    setOpen(!open);
+  };
+  const handleClose = () => {};
+  const handleOpen = () => {};
+
+  const handleActionClick = path => () => {
+    setOpen(!open);
+    props.push(path);
   };
 
-  handleActionClick = path => event => {
-    this.setState(
-      state => ({
-        open: !state.open,
-      }),
-      () => {
-        this.props.push(path);
-      },
-    );
-  };
-
-  render() {
-    const { actions } = this.props;
-    const { open } = this.state;
-
-    return (
-      <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
-        // className={classes.speedDial}
-        // hidden={hidden}
-        icon={<SpeedDialIcon />}
-        onBlur={this.handleClose}
-        onClick={this.handleClick}
-        onClose={this.handleClose}
-        onFocus={this.handleOpen}
-        onMouseEnter={this.handleOpen}
-        onMouseLeave={this.handleClose}
-        open={open}
-        style={{
-          position: 'absolute',
-          bottom: 16,
-          left: 16,
-        }}
-      >
-        {actions.map(action => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            tooltipOpen
-            onClick={this.handleActionClick(action.path)}
-          />
-        ))}
-      </SpeedDial>
-    );
-  }
+  return (
+    <SpeedDial
+      ariaLabel="SpeedDial tooltip example"
+      icon={<SpeedDialIcon />}
+      onBlur={handleClose}
+      onClick={handleClick}
+      onClose={handleClose}
+      onFocus={handleOpen}
+      onMouseEnter={handleOpen}
+      onMouseLeave={handleClose}
+      open={open}
+      style={{
+        position: 'absolute',
+        bottom: 16,
+        left: 16,
+      }}
+    >
+      {actions.map(action => (
+        <SpeedDialAction
+          key={action.name}
+          icon={action.icon}
+          tooltipTitle={action.name}
+          tooltipOpen
+          tooltipPlacement="right"
+          onClick={handleActionClick(action.path)}
+        />
+      ))}
+    </SpeedDial>
+  );
 }
+
+Navigator.propTypes = {
+  push: PropTypes.func,
+  actions: PropTypes.array,
+};
 
 export default Navigator;

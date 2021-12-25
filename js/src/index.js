@@ -1,23 +1,23 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
+import { HistoryRouter as Router } from 'redux-first-history/rr6';
 
 import registerServiceWorker from './registerServiceWorker';
 
-import { configureStore, history } from './store';
+import { configureStore } from './store';
 
 import App from './App';
 import './index.css';
 
-const { store, persistor } = configureStore();
+const { store, persistor, history } = configureStore();
 render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <ConnectedRouter history={history}>
+      <Router history={history}>
         <App />
-      </ConnectedRouter>
+      </Router>
     </PersistGate>
   </Provider>,
   document.getElementById('root'),

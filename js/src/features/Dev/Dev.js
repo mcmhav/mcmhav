@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
 class Dev extends Component {
@@ -20,5 +21,9 @@ class Dev extends Component {
     );
   }
 }
+
+Dev.propTypes = {
+  resetApp: PropTypes.func,
+};
 
 export default Dev;

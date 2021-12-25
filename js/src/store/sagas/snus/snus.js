@@ -6,7 +6,7 @@ import { gapiSignedIn, GAPI_SIGNIN } from '../../dux/gapi';
 
 import { loadGapiScript } from '../../../features/Snus/gapi';
 import env from '../../../env';
-import dateFns from 'date-fns';
+import { format, eachDayOfInterval } from 'date-fns';
 
 const { CLIENT_ID, API_KEY, spreadsheetId, DISCOVERY_DOCS, SCOPES } = env;
 
@@ -102,7 +102,7 @@ const parseRange = range => {
 const makeSupaDataStructure = values => {
   let tables = OrderedMap({});
   values.forEach(row => {
-    var date = dateFns.format(parseInt(row[2], 10), 'YYYY-MM-DD');
+    var date = format(parseInt(row[2], 10), 'YYYY-MM-DD');
 
     // if (!tables[date]) {
     //   tables[date] = {
@@ -146,7 +146,7 @@ const counter2 = rows => {
   for (var count in counts) {
     sorted.push([count, counts[count]]);
   }
-  sorted.sort(function(a, b) {
+  sorted.sort(function (a, b) {
     return b[1] - a[1];
   });
 
@@ -178,13 +178,13 @@ function createCols2(values) {
   const minTs = Math.min(...timestamps);
   const maxTs = Date.now();
 
-  const dateRange = dateFns.eachDay(minTs, maxTs);
+  const dateRange = eachDayOfInterval(minTs, maxTs);
   dateRange.forEach(date => {
-    cols[dateFns.format(date, 'YYYY-MM-DD')] = [];
+    cols[format(date, 'YYYY-MM-DD')] = [];
   });
 
   values.forEach(row => {
-    const date = dateFns.format(parseInt(row[2], 10), 'YYYY-MM-DD');
+    const date = format(parseInt(row[2], 10), 'YYYY-MM-DD');
 
     if (!cols[date]) {
       cols[date] = [];

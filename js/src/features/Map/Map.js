@@ -1,44 +1,31 @@
 /*global google:true*/
+/**
+ * packages:
+ *  - @googlemaps/js-api-loader
+ */
 
 import React, { Component } from 'react';
+import { Loader } from '@googlemaps/js-api-loader';
 import env from '../../env';
 
 import './styles.css';
 
 const { MAP_API_KEY } = env;
-const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&callback=testur`;
-
-const TOTAL_LENGTH_KM = 1735;
-
-const TEST_LENGTH_RUN_KM = 120;
-const TEST_DISTANCES = [
-  {
-    distance: 120,
-    color: '#0000FF',
-  },
-  {
-    distance: 300,
-    color: '#00FFFF',
-  },
-];
 
 const OSLO = { lat: 59.9138057, lng: 10.7441073 };
 const TROMSO = { lat: 69.6442642, lng: 18.9562726 };
 const BAGHDAD = { lat: 33.3152, lng: 44.3661 };
+const PARIS = { lat: 48.8566, lng: 2.3522 };
+const SEOUL = { lat: 37.5665, lng: 126.978 };
 
-function loadScript(scriptUrl, callback) {
-  const mapsApiScript = document.getElementById('maps-api-script');
-  if (!mapsApiScript) {
-    const script = document.createElement('script');
-    script.src = scriptUrl;
-    script.id = 'maps-api-script';
-    // script.async = true;
-    // script.defer = true;
-    window.testur = callback;
-    document.body.appendChild(script);
-  } else {
+function loadScript(callback) {
+  const loader = new Loader({
+    apiKey: MAP_API_KEY,
+    version: 'weekly',
+  });
+  loader.load().then(() => {
     callback();
-  }
+  });
 }
 
 function hashCode(str) {
@@ -71,7 +58,6 @@ class Map extends Component {
           return res.json();
         })
         .then(jsonRes => {
-          console.log(jsonRes);
           const distances = [];
           jsonRes.forEach(distance => {
             distances.push({
@@ -103,17 +89,12 @@ class Map extends Component {
       toLocation,
       fraction,
     );
-    //console.log('totalDistanceLeft:', totalDistanceLeft);
-    //console.log('distance:', distance);
-    //console.log('fractionLocation:', fractionLocation);
-
     this.addPath(fromLocation, fractionLocation, color);
 
     return fractionLocation;
   };
 
   addFractionDistances = (from, to, distances) => {
-    //const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to);
     let currentTo = 0;
     let toLocation = to[currentTo];
     let fromLocation = from;
@@ -173,8 +154,12 @@ class Map extends Component {
 
   googleDoneLoading = async () => {
     const from = new google.maps.LatLng(OSLO);
-    const to = new google.maps.LatLng(TROMSO);
-    const tos = [to, new google.maps.LatLng(BAGHDAD)];
+    const tos = [
+      new google.maps.LatLng(TROMSO),
+      new google.maps.LatLng(BAGHDAD),
+      new google.maps.LatLng(SEOUL),
+      new google.maps.LatLng(PARIS),
+    ];
 
     const distances = await this.getDistances();
 
@@ -186,7 +171,7 @@ class Map extends Component {
     document.getElementById('map').style.hidden = '';
   };
 
-  addPath = (from, to, color, strokeOpacity: 1.0) => {
+  addPath = (from, to, color, strokeOpacity = 1.0) => {
     var flightPlanCoordinates = [from, to];
     var flightPath = new google.maps.Polyline({
       path: flightPlanCoordinates,
@@ -205,17 +190,19 @@ class Map extends Component {
         lat: 64.9333903,
         lng: 14.9213556,
       },
-      zoom: 5.89,
+      zoom: 3,
     });
 
+    // TODO: should not need this
     this.addPath(OSLO, TROMSO, '#FF0000', 0.4);
 
     this.waitForGoogleMapsStuff();
   };
 
   componentDidMount() {
-    loadScript(MAPS_URL, this.initMap);
+    loadScript(this.initMap);
   }
+
   render() {
     return (
       <div>

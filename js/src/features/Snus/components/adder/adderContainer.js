@@ -22,7 +22,4 @@ const mapDispatchToProps = dispatch => {
     gapiSignedIn: status => dispatch(gapiSignedIn(status)),
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Adder);
+export default connect(mapStateToProps, mapDispatchToProps)(Adder);

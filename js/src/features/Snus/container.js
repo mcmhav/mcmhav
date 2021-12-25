@@ -11,7 +11,4 @@ const mapDispatchToProps = dispatch => {
     dataFetch: () => dispatch(dataFetch()),
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Snus);
+export default connect(mapStateToProps, mapDispatchToProps)(Snus);

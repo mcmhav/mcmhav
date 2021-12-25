@@ -18,19 +18,20 @@ import './styles.css';
 // https://bl.ocks.org/interwebjill/8122dd08da9facf8c6ef6676be7da03f
 
 function kernelDensityEstimator(kernel, X) {
-  return function(V) {
-    return X.map(function(x) {
+  return function (V) {
+    return X.map(function (x) {
       return [
         x,
-        d3.mean(V, function(v) {
+        d3.mean(V, function (v) {
           return kernel(x - v);
         }),
       ];
     });
   };
 }
+
 function kernelEpanechnikov(k) {
-  return function(v) {
+  return function (v) {
     return Math.abs((v /= k)) <= 1 ? (0.75 * (1 - v * v)) / k : 0;
   };
 }
@@ -194,10 +195,7 @@ class DeltaFosB extends Component {
       .attr('width', w)
       .attr('height', h);
 
-    const xScale = d3
-      .scaleLinear()
-      .domain([min, max])
-      .range([0, w]);
+    const xScale = d3.scaleLinear().domain([min, max]).range([0, w]);
 
     const yScale = d3
       .scaleLinear()
@@ -215,11 +213,7 @@ class DeltaFosB extends Component {
         return yScale(d[1]);
       });
 
-    svg
-      .append('path')
-      .datum(combinedSeries)
-      .attr('class', 'area')
-      .attr('d', area);
+    svg.append('path').datum(combinedSeries).attr('class', 'area').attr('d', area);
   }
 
   drawSweeter() {
@@ -285,10 +279,7 @@ class DeltaFosB extends Component {
       .call(d3.axisBottom(x))
       .attr('fill', '#F00');
 
-    svg
-      .append('g')
-      .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y));
+    svg.append('g').attr('class', 'axis axis--y').call(d3.axisLeft(y));
 
     var source = svg
       .selectAll('.area')
@@ -336,18 +327,12 @@ class DeltaFosB extends Component {
       .attr('height', (d, i) => d * 10)
       .attr('fill', 'green');
 
-    var x = d3
-      .scaleLinear()
-      .domain([-10, 15])
-      .range([0, w]);
-    var y = d3
-      .scaleLinear()
-      .range([h, 0])
-      .domain([0, 0.12]);
+    var x = d3.scaleLinear().domain([-10, 15]).range([0, w]);
+    var y = d3.scaleLinear().range([h, 0]).domain([0, 0.12]);
     var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(60));
 
     var density1 = kde(
-      data.map(function(d) {
+      data.map(function (d) {
         return d;
       }),
     );
@@ -366,10 +351,10 @@ class DeltaFosB extends Component {
         d3
           .line()
           .curve(d3.curveBasis)
-          .x(function(d) {
+          .x(function (d) {
             return x(d[0]);
           })
-          .y(function(d) {
+          .y(function (d) {
             return y(d[1]);
           }),
       );

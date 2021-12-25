@@ -9,7 +9,10 @@ class Tables extends Component {
   constructor() {
     super();
     this.state = {
-      headers: [{ id: 1, title: 'Date' }, { id: 2, title: 'Notes' }],
+      headers: [
+        { id: 1, title: 'Date' },
+        { id: 2, title: 'Notes' },
+      ],
     };
   }
 

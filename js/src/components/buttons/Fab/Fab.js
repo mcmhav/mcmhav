@@ -1,4 +1,4 @@
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 import MatFab from '@material-ui/core/Fab';
 
 class Fab extends Component {

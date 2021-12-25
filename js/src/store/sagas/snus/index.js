@@ -4,5 +4,5 @@ import snusSaga from './snus';
 import addItemSaga from './addItem';
 
 export default function* rootSnusSaga() {
-  yield all([snusSaga(),addItemSaga()]);
+  yield all([snusSaga(), addItemSaga()]);
 }

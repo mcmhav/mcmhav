@@ -1,27 +1,24 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import React from 'react';
+import { Route, Routes } from 'react-router';
 
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import SaveIcon from '@material-ui/icons/Save';
 import ShowChart from '@material-ui/icons/ShowChart';
 import PrintIcon from '@material-ui/icons/Print';
-import ShareIcon from '@material-ui/icons/Share';
 
 import { Navigator } from './Navigator';
-import asyncComponent from '../../components/asyncComponent';
 
 import './styles.css';
 
-const AsyncMap = asyncComponent(() => import('../Map'));
-const AsyncLanding = asyncComponent(() => import('../Landing'));
-const AsyncSnus = asyncComponent(() => import('../Snus'));
-const AsyncTFTest = asyncComponent(() => import('../TFTest'));
-const AsyncGraph = asyncComponent(() => import('../Graph'));
-const AsyncDev = asyncComponent(() => import('../Dev'));
-const AsyncRandomBible = asyncComponent(() => import('../RandomBible'));
-const AsyncAmGraph = asyncComponent(() => import('../AmGraph'));
-const AsyncStravaAuth = asyncComponent(() => import('../StravaAuth'));
-const AsyncDeltaFosB = asyncComponent(() => import('../DeltaFosB'));
+const AsyncMap = React.lazy(() => import('../Map'));
+const AsyncLanding = React.lazy(() => import('../Landing'));
+const AsyncSnus = React.lazy(() => import('../Snus'));
+const AsyncGraph = React.lazy(() => import('../Graph'));
+const AsyncDev = React.lazy(() => import('../Dev'));
+const AsyncRandomBible = React.lazy(() => import('../RandomBible'));
+const AsyncAmGraph = React.lazy(() => import('../AmGraph'));
+const AsyncStravaAuth = React.lazy(() => import('../StravaAuth'));
+const AsyncDeltaFosB = React.lazy(() => import('../DeltaFosB'));
 
 const About = () => <h2>About</h2>;
 const Users = () => <h2>Users</h2>;
@@ -54,14 +51,6 @@ const navs = [
     action: {
       icon: <PrintIcon />,
       name: 'About',
-    },
-  },
-  {
-    route: { render: AsyncTFTest },
-    path: '/tf',
-    action: {
-      icon: <ShareIcon />,
-      name: 'tf',
     },
   },
   {
@@ -140,7 +129,11 @@ const renderRouterAndNavigator = () => {
     routes.push(
       <Route
         key={`route-key-${nav.action.name}`}
-        render={() => <RenderTmp />}
+        element={
+          <React.Suspense fallback={<>...</>}>
+            <RenderTmp />
+          </React.Suspense>
+        }
         path={nav.path}
         {...rest}
       />,
@@ -155,13 +148,11 @@ const renderRouterAndNavigator = () => {
 };
 const { routes, actions } = renderRouterAndNavigator();
 
-class AppRouter extends Component {
-  render() {
-    return [
-      <Switch key="the-switchh">{routes.map(route => route)}</Switch>,
-      <Navigator actions={actions} key="the-navigator" />,
-    ];
-  }
+function AppRouter() {
+  return [
+    <Routes key="the-switch">{routes.map(route => route)}</Routes>,
+    <Navigator actions={actions} key="the-navigator" />,
+  ];
 }
 
 export default AppRouter;
