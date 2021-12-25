@@ -1,10 +1,15 @@
 {
-  "parser": "babel-eslint",
-  "plugins": ["react"],
-  "ecmaFeatures": {
-    "jsx": true,
-    "modules": true
-  },
+  "parser": "@babel/eslint-parser",
+  "plugins": [
+    "react",
+    "prettier"
+  ],
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier"
+  ],
   "env": {
     "browser": true,
     "amd": true,
@@ -14,18 +19,26 @@
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
+    },
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": [
+        "@babel/preset-react"
+      ]
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
     }
   },
   "rules": {
-    "comma-dangle": ["error", "always-multiline"],
-    "quotes": [1, "single"],
+    "prettier/prettier": "error",
     "no-undef": 1,
     "global-strict": 0,
-    "no-extra-semi": 1,
     "no-underscore-dangle": 0,
     "no-console": 1,
     "no-unused-vars": 1,
-    "no-trailing-spaces": [1, { "skipBlankLines": true }],
     "no-unreachable": 1,
     "no-alert": 0,
     "react/jsx-uses-react": 1

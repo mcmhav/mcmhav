@@ -1,12 +1,42 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import ReactSVG from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import DeltaE from 'delta-e';
-import colorDiff from 'color-difference';
 
 import output from '../../assets/output.svg';
 
 import './Landing.css';
+
+function rgb2lab(rgb) {
+  var r = rgb[0] / 255,
+    g = rgb[1] / 255,
+    b = rgb[2] / 255,
+    x,
+    y,
+    z;
+
+  r = r > 0.04045 ? Math.pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+  g = g > 0.04045 ? Math.pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+  b = b > 0.04045 ? Math.pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
+
+  x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+  y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.0;
+  z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+
+  x = x > 0.008856 ? Math.pow(x, 1 / 3) : 7.787 * x + 16 / 116;
+  y = y > 0.008856 ? Math.pow(y, 1 / 3) : 7.787 * y + 16 / 116;
+  z = z > 0.008856 ? Math.pow(z, 1 / 3) : 7.787 * z + 16 / 116;
+
+  return { L: 116 * y - 16, A: 500 * (x - y), B: 200 * (y - z) };
+}
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
+    : null;
+}
+function colorDiff(color1, color2) {
+  return DeltaE.getDeltaE76(rgb2lab(hexToRgb(color1)), rgb2lab(hexToRgb(color2)));
+}
 
 const getRandomInt = (max, min = 0) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -39,16 +69,16 @@ class Landing extends Component {
   // componentDidMount() {
   //   console.log('mounted')
   //   this.updateWindowDimensions();
-  //   window.addEventListener('resize', this.updateWindowDimensions);
+  //   window.addEventListener('resize',this.updateWindowDimensions);
   // }
 
   // componentWillUnmount() {
   //   console.log('unmounted')
-  //   window.removeEventListener('resize', this.updateWindowDimensions);
+  //   window.removeEventListener('resize',this.updateWindowDimensions);
   // }
 
   // updateWindowDimensions() {
-  //   this.setState({ width: window.innerWidth, height: window.innerHeight });
+  //   this.setState({ width: window.innerWidth,height: window.innerHeight });
   // }
 
   colorPolies = [];
@@ -72,8 +102,12 @@ class Landing extends Component {
     });
   };
 
-  onInjected = svg => {
+  onInjected = (error, svg) => {
     console.log('onInjected');
+
+    if (error) {
+      console.error('got an error injecting', error);
+    }
 
     const { shouldFlicker } = this.state;
     if (!shouldFlicker) {
@@ -81,21 +115,18 @@ class Landing extends Component {
     }
     if (svg) {
       this.polies = svg.querySelectorAll('g polygon');
-      console.log(this.polies);
       let diffs = 0;
       let maxX = 0;
       let maxY = 0;
       this.polies.forEach(poly => {
         // console.log(poly.attributes.fill.nodeValue);
         // const colors = poly.attributes.fill.nodeValue
-        //   .replace('#', '')
         //   .match(colorRegex);
         // const color = {
         //   L: colors[0],
         //   A: colors[1],
         //   b: colors[2],
         // };
-        // const { maxHeight, maxWidth } = p
 
         poly.attributes.points.nodeValue.split(' ').forEach(point => {
           const xy = point.split(',');
@@ -108,11 +139,8 @@ class Landing extends Component {
             maxY = y;
           }
         });
-        const diff = colorDiff.compare(
-          poly.attributes.fill.nodeValue,
-          '#00b9fe'
-        );
-        // console.log(diff);
+
+        const diff = colorDiff(poly.attributes.fill.nodeValue, '#00b9fe');
         if (diff < 70) {
           diffs++;
           this.colorPolies.push(poly);
@@ -120,8 +148,6 @@ class Landing extends Component {
         // const distance = DeltaE.getDeltaE76();
         // console.log(distance);
       });
-      console.log(diffs);
-      console.log(maxX, maxY);
     }
 
     this.rotateInterval = setInterval(this.randomRotatSvg, 100);
@@ -145,11 +171,11 @@ class Landing extends Component {
       'moooove',
       event.clientX,
       event.clientY,
-      ReactDOM.findDOMNode(this.svgRef.current).getBoundingClientRect().width,
-      ReactDOM.findDOMNode(this.svgRef.current).getBoundingClientRect().height
+      // ReactDOM.findDOMNode(this.svgRef.current).getBoundingClientRect().width,
+      // ReactDOM.findDOMNode(this.svgRef.current).getBoundingClientRect().height,
     );
     // if (!showingMenu) {
-    //   this.setState({ showingMenu: true }, );
+    //   this.setState({ showingMenu: true },);
     // }
   };
 
@@ -159,10 +185,8 @@ class Landing extends Component {
         ref={this.svgRef}
         src={output}
         evalScripts="always"
-        onInjected={this.onInjected}
+        afterInjection={this.onInjected}
         renumerateIRIElements={false}
-        svgClassName="svg-class-name"
-        svgStyle={{ width: '100%', height: '100%' }}
         className="svg-wrapper"
         onClick={this.onClick}
         onMouseMove={this.onMouseMove}

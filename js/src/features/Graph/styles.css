@@ -1,0 +1,26 @@
+#plot,
+.js-plotly-plot,
+.plot-container,
+.svg-container {
+  height: 99vh !important;
+}
+.square {
+  /* width: 50%; */
+  position: relative;
+
+  /* width: 50vw;
+  height: 50vw; */
+  margin: 0 auto;
+}
+
+/* .square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+} */
+
+.loader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}

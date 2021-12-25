@@ -4,6 +4,10 @@ cd js || exit
 
 yarn build
 
-cd ../server || exit
+cd ..
 
-gcloud app deploy
+gcloud app deploy dispatch.yaml --quiet
+
+cd server || exit
+
+gcloud app deploy --quiet
